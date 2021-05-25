@@ -1,10 +1,15 @@
 import * as React from 'react'
-import styles from './styles.module.css'
+// import styles from './styles.module.css'
+import { calcData } from './lib/model';
+import { graphData } from "./testGraphData";
 
-interface Props {
-  text: string
-}
+export const Chart = () => {
+  const pathData = calcData(graphData, 0, 500, 400);
+  const currentPathString = pathData.path;
 
-export const ExampleComponent = ({ text }: Props) => {
-  return <div className={styles.test}>Example Component: {text}</div>
+  console.log(currentPathString);
+
+  return(
+    <div></div>
+  );
 }
