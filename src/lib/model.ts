@@ -81,7 +81,7 @@ export const calcData = (
 
     // Parse string to float
     const formattedValues = priceList.map(
-        (price) => [parseFloat(price[0]), price[1]] as [number, number]
+        (price, index) => [parseFloat(price[0]), index] as [number, number]
     );
 
     //Split formattedValues to prices and dates array
