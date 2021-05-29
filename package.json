@@ -33,6 +33,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "@types/d3-interpolate-path": "^2.0.0",
     "@types/d3-scale": "^3.3.0",
     "@types/d3-shape": "^2.1.0",
     "@types/jest": "^25.1.4",
@@ -71,6 +72,8 @@
   ],
   "dependencies": {
     "abs-svg-path": "^0.1.1",
+    "d3": "^6.7.0",
+    "d3-interpolate-path": "^2.2.3",
     "d3-scale": "^3.3.0",
     "d3-shape": "^2.1.0",
     "normalize-svg-path": "^1.1.0",
