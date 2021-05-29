@@ -1,3 +1,5 @@
+import { ChartData, DataPoints } from "./types/types";
+
 export const graphData = {
     data: {
         base: "BABA",
@@ -361,4 +363,39 @@ export const graphData = {
             }
         }
     }
+};
+
+const convert = (maxDataPoints: number, prices: string[][]): DataPoints => {
+    const dataPoints: DataPoints = {
+        maxDataPoints,
+        dataPoints: []
+    };
+    prices.forEach((price) => {
+        dataPoints.dataPoints.push({
+            value: parseFloat(price[0]),
+            label: price[1]
+        });
+    });
+
+    return dataPoints;
+};
+
+const prices = graphData.data.prices;
+
+const chartLabels = ["1D", "5D", "1M", "1Y"];
+const chartData = [];
+chartData.push(convert(prices.day.max_data_points, prices.day.prices));
+chartData.push(convert(prices.week.max_data_points, prices.week.prices));
+chartData.push(convert(prices.month.max_data_points, prices.month.prices));
+chartData.push(convert(prices.year.max_data_points, prices.year.prices));
+
+console.log(chartData);
+
+export const ConvertedData: ChartData = {
+    chartLabels,
+    chartData,
+    displayCurrentValue: true,
+    displayPercentageChange: true,
+    displayPointLabels: true,
+    partialGraph: true
 };
