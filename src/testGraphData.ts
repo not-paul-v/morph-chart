@@ -368,10 +368,10 @@ export const graphData = {
 const convert = (maxDataPoints: number, prices: string[][]): DataPoints => {
     const dataPoints: DataPoints = {
         maxDataPoints,
-        dataPoints: []
+        points: []
     };
     prices.forEach((price) => {
-        dataPoints.dataPoints.push({
+        dataPoints.points.push({
             value: parseFloat(price[0]),
             label: price[1]
         });
