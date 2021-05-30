@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import styles from "./styles.module.css";
-import { calcPath } from './lib/model';
-import { ConvertedData } from "./testGraphData";
+import ChartModel from './lib/model';
 import { interpolatePath } from "d3-interpolate-path";
 import { ChartData, MousePoint } from './types/types';
+import { ConvertedData } from './testGraphData';
 const d3 = require("d3");
 
 type ChartProps = {
@@ -16,13 +16,15 @@ export const Chart = ({ width, height, data }: ChartProps) => {
   const [chartState, setChartState] = useState(0);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 } as MousePoint);
 
-  const pathData = calcPath(ConvertedData.chartData[chartState], width, height);
+  const chartModel = new ChartModel(ConvertedData, width, height);
+
+  const pathData = chartModel.calcPath(chartState);
   const currentPathString = pathData.path;
   const graphRef = useRef(null);
 
-  const handleChartChangeClick = (key: number) => {
+  const handleChartChangeClick = (state: number) => {
     let previous = currentPathString;
-    let current = calcPath(ConvertedData.chartData[key], width, height);
+    let current = chartModel.calcPath(state);
     let interpolatedPathData = interpolatePath(previous, current.path);
 
     d3.select(graphRef.current)
@@ -31,7 +33,7 @@ export const Chart = ({ width, height, data }: ChartProps) => {
       .duration(1000)
       .attrTween('d', () => interpolatedPathData)
       .on('end', () => {
-        setChartState(key);
+        setChartState(state);
     });
   }
 
