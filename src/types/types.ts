@@ -1,9 +1,3 @@
-export type ChartProps = {
-    width: number;
-    height: number;
-    data: ChartData;
-};
-
 export type DataPoint = {
     value: number;
     label: string | null;
@@ -29,4 +23,9 @@ export type ChartData = {
     displayPointLabels: boolean;
     // if true checks for max datapoints prop to display partial graph otherwise stretches graph to full width
     partialGraph?: boolean;
+};
+
+export type MousePoint = {
+    x: number;
+    y: number;
 };
