@@ -1,6 +1,8 @@
 const parseSVG = require("parse-svg-path");
 const absSVG = require("abs-svg-path");
-const normalizeSVG = require("normalize-svg-path");
+// const normalizeSVG = require("normalize-svg-path");
+//@ts-ignore
+import normalizeSVG from "normalize-svg-path";
 import { Vector, cubicBezierYForX } from "./math";
 
 type SVGCloseCommand = ["Z"];
