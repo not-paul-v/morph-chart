@@ -4,6 +4,8 @@ import ChartModel from './lib/model';
 import { interpolatePath } from "d3-interpolate-path";
 import { ChartData, MousePoint } from './types/types';
 import { ConvertedData } from './testGraphData';
+import { mapValues } from './lib/math';
+import { getYForX, parse } from './lib/path';
 const d3 = require("d3");
 
 type ChartProps = {
@@ -18,7 +20,11 @@ export const Chart = ({ width, height, data }: ChartProps) => {
 
   const chartModel = new ChartModel(ConvertedData, width, height);
 
+  console.log(data);
+
+
   const pathData = chartModel.calcPath(chartState);
+  const path = parse(pathData.path);
   const currentPathString = pathData.path;
   const graphRef = useRef(null);
 
@@ -38,12 +44,31 @@ export const Chart = ({ width, height, data }: ChartProps) => {
   }
 
   const handleMouseMove = (event: React.MouseEvent) => {
+    let maxDataPoints: number;
+    if (ConvertedData.chartData[chartState].maxDataPoints === undefined) {
+      maxDataPoints = ConvertedData.chartData[chartState].points.length;
+    } else {
+      maxDataPoints = ConvertedData.chartData[chartState].maxDataPoints!;
+    }
+    
+    const dataPointsIndex = Math.abs(Math.floor(mapValues(event.nativeEvent.offsetX, [0, width], [0, maxDataPoints])));
+    const xValue = mapValues(dataPointsIndex, [0, maxDataPoints-1], [0, width]);
+    const yValue = getYOnGraph(xValue);
+    
     setCursorPosition({
-      x: event.nativeEvent.offsetX,
-      y: event.nativeEvent.offsetY
+      x: xValue,
+      y: yValue
     });
     console.log(cursorPosition);
   }
+
+  const getYOnGraph = (x: number) => {
+        try {
+            return getYForX(path, x);
+        } catch (error) {
+            return 0;
+        }
+    }
 
   return(
     <div className={styles.chartContainer} style={{ width, height }}>
@@ -58,9 +83,9 @@ export const Chart = ({ width, height, data }: ChartProps) => {
           ref={graphRef}
         />
       </svg>
-      { data.chartLabels === null ? null :
+      { ConvertedData.chartLabels === null ? null :
         <div className={styles.buttonContainer}>
-          {data.chartLabels.map((value, index) => (
+          {ConvertedData.chartLabels.map((value, index) => (
             <button
               className={styles.chartButton}
               style={index==chartState ? {color: "gray", cursor: "not-allowed"} : {}}
