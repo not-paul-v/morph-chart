@@ -14,7 +14,7 @@ type ChartProps = {
     data: ChartData;
 };
 
-export const Chart = ({ width, height, data }: ChartProps) => {
+const Chart = ({ width, height, data }: ChartProps) => {
   const [chartState, setChartState] = useState(0);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 } as MousePoint);
 
@@ -98,3 +98,5 @@ export const Chart = ({ width, height, data }: ChartProps) => {
     </div>
   );
 }
+
+export default Chart;
