@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import styles from "./styles.module.css";
 import ChartModel from './lib/model';
 import { interpolatePath } from "d3-interpolate-path";
-import { ChartCursor, ChartData, MousePoint } from './types/types';
+import { ChartCursor, ChartData } from './types/types';
 import { ConvertedData } from './testGraphData';
 import { mapValues } from './lib/math';
 import { getYForX, parse } from './lib/path';
@@ -29,6 +29,12 @@ const Chart = ({ width, height, data }: ChartProps) => {
   const graphRef = useRef(null);
 
   const handleChartChangeClick = (state: number) => {
+    setChartCursor({
+      x: chartCursor.x,
+      y: chartCursor.y,
+      show: false
+    });
+    
     let previous = currentPathString;
     let current = chartModel.calcPath(state);
     let interpolatedPathData = interpolatePath(previous, current.path);
@@ -51,25 +57,30 @@ const Chart = ({ width, height, data }: ChartProps) => {
       maxDataPoints = ConvertedData.chartData[chartState].maxDataPoints!;
     }
     
-    const dataPointsIndex = Math.abs(Math.floor(mapValues(event.nativeEvent.offsetX, [0, width], [0, maxDataPoints])));
-    const xValue = mapValues(dataPointsIndex, [0, maxDataPoints-1], [0, width]);
-    const yValue = getYOnGraph(xValue);
+    const { xValue, yValue } = getXYValues(event, maxDataPoints);
     
     setChartCursor({
       x: xValue,
       y: yValue,
-      show: true,
+      show: yValue !== -1,
     });
-    console.log(chartCursor);
+  }
+
+  const getXYValues = (event: React.MouseEvent, maxDataPoints: number) => {
+    const dataPointsIndex = Math.abs(Math.floor(mapValues(event.nativeEvent.offsetX, [0, width], [0, maxDataPoints])));
+    const xValue = mapValues(dataPointsIndex, [0, maxDataPoints-1], [0, width]);
+    const yValue = getYOnGraph(xValue);
+
+    return { xValue, yValue };
   }
 
   const getYOnGraph = (x: number) => {
-        try {
-            return getYForX(path, x);
-        } catch (error) {
-            return 0;
-        }
-    }
+      try {
+          return getYForX(path, x);
+      } catch (error) {
+          return -1;
+      }
+  }
 
   return(
     <div className={styles.chartContainer} style={{ width, height }}>
