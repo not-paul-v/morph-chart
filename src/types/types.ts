@@ -25,7 +25,8 @@ export type ChartData = {
     partialGraph?: boolean;
 };
 
-export type MousePoint = {
+export type ChartCursor = {
     x: number;
     y: number;
+    show: boolean;
 };
