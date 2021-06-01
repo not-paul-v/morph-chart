@@ -50,6 +50,15 @@ const Chart = ({ width, height, data }: ChartProps) => {
     });
   }
 
+  const handleMouseLeave = () => {
+    changeCurrentDataPointValue(ConvertedData.chartData[chartState].points.length-1);
+    setChartCursor({
+      x: 0,
+      y: 0,
+      show: false,
+    });
+  }
+
   const handleMouseMove = (event: React.MouseEvent) => {
     let maxDataPoints: number;
     if (ConvertedData.chartData[chartState].maxDataPoints === undefined) {
@@ -59,7 +68,7 @@ const Chart = ({ width, height, data }: ChartProps) => {
     }
     
     const { dataPointsIndex, xValue, yValue } = getXYValues(event, maxDataPoints);
-    
+
     changeCurrentDataPointValue(dataPointsIndex);
     setChartCursor({
       x: xValue,
@@ -99,6 +108,7 @@ const Chart = ({ width, height, data }: ChartProps) => {
         width={width}
         height={height}
         onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
       >
         <path
           d={pathData !== null ? currentPathString : ""}
