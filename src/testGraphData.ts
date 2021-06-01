@@ -385,9 +385,9 @@ const prices = graphData.data.prices;
 const chartLabels = ["1D", "5D", "1M", "1Y"];
 const chartData = [];
 chartData.push(convert(prices.day.max_data_points, prices.day.prices));
-chartData.push(convert(prices.week.max_data_points, prices.week.prices));
-chartData.push(convert(prices.month.max_data_points, prices.month.prices));
-chartData.push(convert(prices.year.max_data_points, prices.year.prices));
+chartData.push(convert(prices.week.prices.length, prices.week.prices));
+chartData.push(convert(prices.month.prices.length, prices.month.prices));
+chartData.push(convert(prices.year.prices.length, prices.year.prices));
 
 console.log(chartData);
 
