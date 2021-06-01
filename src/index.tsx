@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import styles from "./styles.module.css";
 import ChartModel from './lib/model';
 import { interpolatePath } from "d3-interpolate-path";
-import { ChartData, MousePoint } from './types/types';
+import { ChartCursor, ChartData, MousePoint } from './types/types';
 import { ConvertedData } from './testGraphData';
 import { mapValues } from './lib/math';
 import { getYForX, parse } from './lib/path';
@@ -16,7 +16,7 @@ type ChartProps = {
 
 export const Chart = ({ width, height, data }: ChartProps) => {
   const [chartState, setChartState] = useState(0);
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 } as MousePoint);
+  const [chartCursor, setChartCursor] = useState({ x: 0, y: 0, show: false } as ChartCursor);
 
   const chartModel = new ChartModel(ConvertedData, width, height);
 
@@ -55,11 +55,12 @@ export const Chart = ({ width, height, data }: ChartProps) => {
     const xValue = mapValues(dataPointsIndex, [0, maxDataPoints-1], [0, width]);
     const yValue = getYOnGraph(xValue);
     
-    setCursorPosition({
+    setChartCursor({
       x: xValue,
-      y: yValue
+      y: yValue,
+      show: true,
     });
-    console.log(cursorPosition);
+    console.log(chartCursor);
   }
 
   const getYOnGraph = (x: number) => {
@@ -81,6 +82,21 @@ export const Chart = ({ width, height, data }: ChartProps) => {
           d={pathData !== null ? currentPathString : ""}
           style={{ fill: "transparent", stroke: "blue", strokeWidth: 4 }}
           ref={graphRef}
+        />
+        <circle 
+          cx={chartCursor.x} cy={chartCursor.y} 
+          r={chartCursor.show ? 5 : 0} 
+          stroke="gray" 
+          strokeWidth={20} 
+          strokeOpacity={0.40} 
+          fill="black" 
+        />
+        <line 
+          strokeWidth={chartCursor.show ? 3 : 0} 
+          x1={chartCursor.x} y1={height} 
+          x2={chartCursor.x} y2={chartCursor.y} 
+          stroke="black"
+          strokeDasharray={4} opacity={0.7}
         />
       </svg>
       { ConvertedData.chartLabels === null ? null :
