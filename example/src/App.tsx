@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import { Chart } from 'lean-chart'
-import 'lean-chart/dist/index.css'
+import Chart from "lean-chart";
+import 'lean-chart/dist/index.css';
 
 const data = {
   chartLabels: ["1D", "5D", "1M", "1Y"],

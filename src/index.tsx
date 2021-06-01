@@ -14,7 +14,7 @@ type ChartProps = {
     data: ChartData;
 };
 
-export const Chart = ({ width, height, data }: ChartProps) => {
+const Chart = ({ width, height, data }: ChartProps) => {
   const [chartState, setChartState] = useState(0);
   const [chartCursor, setChartCursor] = useState({ x: 0, y: 0, show: false } as ChartCursor);
 
@@ -114,3 +114,5 @@ export const Chart = ({ width, height, data }: ChartProps) => {
     </div>
   );
 }
+
+export default Chart;
