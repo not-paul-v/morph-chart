@@ -16,6 +16,7 @@ type ChartProps = {
 
 const Chart = ({ width, height, data }: ChartProps) => {
   const [chartState, setChartState] = useState(0);
+  const [currentDataPointValue, setCurrentDataPointValue] = useState(0);
   const [chartCursor, setChartCursor] = useState({ x: 0, y: 0, show: false } as ChartCursor);
 
   const chartModel = new ChartModel(ConvertedData, width, height);
@@ -57,8 +58,9 @@ const Chart = ({ width, height, data }: ChartProps) => {
       maxDataPoints = ConvertedData.chartData[chartState].maxDataPoints!;
     }
     
-    const { xValue, yValue } = getXYValues(event, maxDataPoints);
+    const { dataPointsIndex, xValue, yValue } = getXYValues(event, maxDataPoints);
     
+    changeCurrentDataPointValue(dataPointsIndex);
     setChartCursor({
       x: xValue,
       y: yValue,
@@ -71,7 +73,7 @@ const Chart = ({ width, height, data }: ChartProps) => {
     const xValue = mapValues(dataPointsIndex, [0, maxDataPoints-1], [0, width]);
     const yValue = getYOnGraph(xValue);
 
-    return { xValue, yValue };
+    return { dataPointsIndex, xValue, yValue };
   }
 
   const getYOnGraph = (x: number) => {
@@ -82,8 +84,17 @@ const Chart = ({ width, height, data }: ChartProps) => {
       }
   }
 
+  const changeCurrentDataPointValue = (index: number) => {
+    if (index < ConvertedData.chartData[chartState].points.length) {
+      setCurrentDataPointValue(
+        ConvertedData.chartData[chartState].points[index].value
+      );
+    }
+  }
+
   return(
     <div className={styles.chartContainer} style={{ width, height }}>
+      <div>{ currentDataPointValue }</div>
       <svg
         width={width}
         height={height}
