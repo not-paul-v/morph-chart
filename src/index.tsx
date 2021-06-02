@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from "./styles.module.css";
 import ChartModel from './lib/model';
 import { interpolatePath } from "d3-interpolate-path";
-import { ChartCursor, ChartData } from './types/types';
+import { ChartCursor, ChartData, DynamicHeaderData } from './types/types';
 import { ConvertedData } from './testGraphData';
 import { mapValues } from './lib/math';
 import { getYForX, parse } from './lib/path';
@@ -16,38 +16,32 @@ type ChartProps = {
 
 const Chart = ({ width, height, data }: ChartProps) => {
   const [chartState, setChartState] = useState(0);
-  const [currentDataPointValue, setCurrentDataPointValue] = useState(0);
   const [chartCursor, setChartCursor] = useState({ x: 0, y: 0, show: false } as ChartCursor);
+  const [headerData, setHeaderData] = useState({ dataPointValue: null, percentChange: null } as DynamicHeaderData);
+  const [morphing, setMorphing] = useState(false);
 
   const chartModel = new ChartModel(ConvertedData, width, height);
-
-  console.log(data);
-
-
   const pathData = chartModel.calcPath(chartState);
   const path = parse(pathData.path);
   const currentPathString = pathData.path;
   const graphRef = useRef(null);
 
-  const handleChartChangeClick = (state: number) => {
-    setChartCursor({
-      x: chartCursor.x,
-      y: chartCursor.y,
-      show: false
-    });
-    
+  useEffect(() => {
+    if (headerData.dataPointValue === null) {
+      setHeaderData({
+        dataPointValue: ConvertedData.chartData[chartState].points[ConvertedData.chartData[chartState].points.length - 1].value,
+        percentChange: headerData.percentChange
+      })
+    }
+  })
+  console.log(data);
+
+  const handleChartChangeClick = (state: number) => {   
     let previous = currentPathString;
     let current = chartModel.calcPath(state);
     let interpolatedPathData = interpolatePath(previous, current.path);
 
-    d3.select(graphRef.current)
-      .attr('d', previous)
-      .transition()
-      .duration(1000)
-      .attrTween('d', () => interpolatedPathData)
-      .on('end', () => {
-        setChartState(state);
-    });
+    morphPath(previous, interpolatedPathData, state, graphRef);
   }
 
   const handleMouseLeave = () => {
@@ -60,6 +54,9 @@ const Chart = ({ width, height, data }: ChartProps) => {
   }
 
   const handleMouseMove = (event: React.MouseEvent) => {
+    if (morphing)
+      return;
+
     let maxDataPoints: number;
     if (ConvertedData.chartData[chartState].maxDataPoints === undefined) {
       maxDataPoints = ConvertedData.chartData[chartState].points.length;
@@ -93,17 +90,38 @@ const Chart = ({ width, height, data }: ChartProps) => {
       }
   }
 
+  const morphPath = (
+    oldPath: string,
+    newPath: (t: number) => string,
+    newState: number,
+    graphRef: React.RefObject<SVGPathElement>
+  ) => {
+    d3.select(graphRef.current)
+      .attr('d', oldPath)
+      .transition()
+      .duration(1000)
+      .attrTween('d', () => newPath)
+      .on('start', () => {
+        setMorphing(true);
+      })
+      .on('end', () => {
+        setChartState(newState);
+        setMorphing(false);
+    });
+  }
+
   const changeCurrentDataPointValue = (index: number) => {
     if (index < ConvertedData.chartData[chartState].points.length) {
-      setCurrentDataPointValue(
-        ConvertedData.chartData[chartState].points[index].value
-      );
+      setHeaderData({
+        dataPointValue: ConvertedData.chartData[chartState].points[index].value,
+        percentChange: headerData.percentChange
+      })
     }
   }
 
   return(
     <div className={styles.chartContainer} style={{ width, height }}>
-      <div>{ currentDataPointValue }</div>
+      <div className={styles.title}>{ headerData.dataPointValue }</div>
       <svg
         width={width}
         height={height}
@@ -135,7 +153,7 @@ const Chart = ({ width, height, data }: ChartProps) => {
         <div className={styles.buttonContainer}>
           {ConvertedData.chartLabels.map((value, index) => (
             <button
-              className={styles.chartButton}
+              className={styles.button}
               style={index==chartState ? {color: "gray", cursor: "not-allowed"} : {}}
               key={index}
               onClick={() => handleChartChangeClick(index)}
