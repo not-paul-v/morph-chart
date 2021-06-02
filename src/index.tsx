@@ -121,7 +121,9 @@ const Chart = ({ width, height, data }: ChartProps) => {
 
   return(
     <div className={styles.chartContainer} style={{ width, height }}>
-      <div className={styles.title}>{ headerData.dataPointValue }</div>
+      <div className={styles.title}>
+        { ConvertedData.title } { headerData.dataPointValue }
+      </div>
       <svg
         width={width}
         height={height}
