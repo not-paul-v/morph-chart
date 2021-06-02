@@ -14,12 +14,17 @@
 }
 
 .buttonContainer {
-    color: aqua;
     position: absolute;
-    top: 2px;
+    bottom: 2px;
     right: 2px;
 }
 
-.chartButton {
+.button {
     margin-left: 2px;
+}
+
+.title {
+    position: absolute;
+    top: 2px;
+    left: 2px;
 }
