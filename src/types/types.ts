@@ -30,3 +30,8 @@ export type ChartCursor = {
     y: number;
     show: boolean;
 };
+
+export type DynamicHeaderData = {
+    dataPointValue: number | null;
+    percentChange: number | null;
+};
