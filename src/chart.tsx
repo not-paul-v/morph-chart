@@ -54,7 +54,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
         if (index < ConvertedData.chartData[chartModel.state].points.length) {
             setHeaderData({
                 dataPointValue: chartModel.getDataPointByIndex(index).value,
-                percentChange: headerData.percentChange
+                percentChange: chartModel.getPercentChangeFromIndex(index)
             });
         }
     }
@@ -63,6 +63,9 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
         <div className={styles.chartContainer} style={{ width: chartModel.width, height: chartModel.height }}>
             <div className={styles.title}>
                 { ConvertedData.title } { headerData.dataPointValue }
+            </div>
+            <div className={styles.percent}>
+                { headerData.percentChange } %
             </div>
             <svg
                 width={chartModel.width}

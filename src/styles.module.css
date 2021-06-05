@@ -28,3 +28,9 @@
     top: 2px;
     left: 2px;
 }
+
+.percent {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}

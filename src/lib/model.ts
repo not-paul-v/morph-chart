@@ -3,7 +3,7 @@ import { scaleLinear } from "d3-scale";
 import { ChartData, DataPoint } from "../types/types";
 import { getYForX, parse, Path } from "./path";
 import { interpolatePath } from "d3-interpolate-path";
-import { mapValues } from "./math";
+import { mapValues, relativePercent } from "./math";
 import React from "react";
 
 const d3 = require("d3");
@@ -163,6 +163,14 @@ export default class ChartModel {
         } else {
             return this.data.chartData[this.state].maxDataPoints!;
         }
+    };
+
+    getPercentChangeFromIndex = (index: number): number => {
+        const firstValue = this.getDataPointByIndex(0).value;
+        const secondValue = this.getDataPointByIndex(index).value;
+
+        const percentChange = relativePercent(secondValue, firstValue);
+        return Math.round(percentChange * 10000) / 100;
     };
 
     getLatestDataPoint = (): DataPoint => {
