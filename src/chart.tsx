@@ -7,6 +7,7 @@ import { ChartCursor, DynamicHeaderData } from './types/types';
 interface ChartProps {
     chartModel: ChartModel
 }
+
 const Chart: React.FC<ChartProps> = ({ chartModel }) => {
     const [chartCursor, setChartCursor] = useState({ x: 0, y: 0, show: false } as ChartCursor);
     const [headerData, setHeaderData] = useState({ dataPointValue: null, percentChange: null } as DynamicHeaderData);
@@ -14,10 +15,10 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
 
     useEffect(() => {
         if (headerData.dataPointValue === null) {
-        setHeaderData({
-            dataPointValue: chartModel.getLatestDataPoint(chartModel.state).value,
-            percentChange: headerData.percentChange
-        })
+            setHeaderData({
+                dataPointValue: chartModel.getLatestDataPoint().value,
+                percentChange: headerData.percentChange
+            });
         }
     });
 
@@ -38,13 +39,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
         if (chartModel.morphing)
             return;
 
-        let maxDataPoints: number;
-        if (ConvertedData.chartData[chartModel.state].maxDataPoints === undefined) {
-            maxDataPoints = ConvertedData.chartData[chartModel.state].points.length;
-        } else {
-            maxDataPoints = ConvertedData.chartData[chartModel.state].maxDataPoints!;
-        }
-        
+        const maxDataPoints = chartModel.getMaxDataPoints();        
         const { dataPointsIndex, xValue, yValue } = chartModel.getXYValues(event.nativeEvent.offsetX, maxDataPoints);
 
         changeCurrentDataPointValue(dataPointsIndex);
@@ -58,7 +53,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
     const changeCurrentDataPointValue = (index: number) => {
         if (index < ConvertedData.chartData[chartModel.state].points.length) {
             setHeaderData({
-                dataPointValue: chartModel.getDataPointByIndex(chartModel.state, index).value,
+                dataPointValue: chartModel.getDataPointByIndex(index).value,
                 percentChange: headerData.percentChange
             });
         }

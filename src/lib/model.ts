@@ -33,7 +33,7 @@ export default class ChartModel {
         this.morphing = false;
 
         // calculate path stuff
-        this.pathData = this.calcPath(_state);
+        this.pathData = this.calcPath();
         this.parsedPath = parse(this.pathData.path);
     }
 
@@ -47,8 +47,8 @@ export default class ChartModel {
         }
     };
 
-    calcPath = (type: number) => {
-        const datapoints = this.data.chartData[type];
+    calcPath = () => {
+        const datapoints = this.data.chartData[this.state];
         // Parse string to float
         const formattedValues = datapoints.points.map(
             (datapoint, index) => [datapoint.value, index] as [number, number]
@@ -99,12 +99,12 @@ export default class ChartModel {
 
         if (morph === true) {
             let previous = this.pathData.path;
-            let interpolatedPathData = this.getInterpolatedPath(state);
+            let interpolatedPathData = this.getInterpolatedPath();
 
             this.morphPath(previous, interpolatedPathData, state, ref);
         }
 
-        this.pathData = this.calcPath(state);
+        this.pathData = this.calcPath();
         this.parsedPath = parse(this.pathData.path);
     };
 
@@ -128,8 +128,8 @@ export default class ChartModel {
             });
     };
 
-    getInterpolatedPath = (state: number) => {
-        let current = this.calcPath(state);
+    getInterpolatedPath = () => {
+        let current = this.calcPath();
         return interpolatePath(this.pathData.path, current.path);
     };
 
@@ -157,12 +157,20 @@ export default class ChartModel {
         }
     };
 
-    getLatestDataPoint = (state: number): DataPoint => {
-        const pointsLength = this.data.chartData[state].points.length;
-        return this.data.chartData[state].points[pointsLength - 1];
+    getMaxDataPoints = (): number => {
+        if (this.data.chartData[this.state].maxDataPoints === undefined) {
+            return this.data.chartData[this.state].points.length;
+        } else {
+            return this.data.chartData[this.state].maxDataPoints!;
+        }
     };
 
-    getDataPointByIndex = (state: number, index: number): DataPoint => {
-        return this.data.chartData[state].points[index];
+    getLatestDataPoint = (): DataPoint => {
+        const pointsLength = this.data.chartData[this.state].points.length;
+        return this.data.chartData[this.state].points[pointsLength - 1];
+    };
+
+    getDataPointByIndex = (index: number): DataPoint => {
+        return this.data.chartData[this.state].points[index];
     };
 }
