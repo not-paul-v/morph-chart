@@ -181,4 +181,8 @@ export default class ChartModel {
     getDataPointByIndex = (index: number): DataPoint => {
         return this.data.chartData[this.state].points[index];
     };
+
+    getDataPointsLength = (): number => {
+        return this.data.chartData[this.state].points.length;
+    };
 }

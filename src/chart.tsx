@@ -17,7 +17,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
         if (headerData.dataPointValue === null) {
             setHeaderData({
                 dataPointValue: chartModel.getLatestDataPoint().value,
-                percentChange: headerData.percentChange
+                percentChange: chartModel.getPercentChangeFromIndex(chartModel.getDataPointsLength() - 1),
             });
         }
     });
@@ -64,9 +64,11 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
             <div className={styles.title}>
                 { ConvertedData.title } { headerData.dataPointValue }
             </div>
-            <div className={styles.percent}>
-                { headerData.percentChange } %
-            </div>
+            { !chartModel.data.displayPercentageChange ? null :
+                <div className={styles.percent}>
+                    { headerData.percentChange } %
+                </div>
+            }
             <svg
                 width={chartModel.width}
                 height={chartModel.height}
