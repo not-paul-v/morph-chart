@@ -18,9 +18,9 @@ export type ChartData = {
     subtitle?: string | null;
     // if true display value of current mouse position
     // if false displays last value
-    displayCurrentValue: boolean;
-    displayPercentageChange: boolean;
-    displayPointLabels: boolean;
+    displayCurrentValue?: boolean;
+    displayPercentageChange?: boolean;
+    displayPointLabels?: boolean;
     // if true checks for max datapoints prop to display partial graph otherwise stretches graph to full width
     partialGraph?: boolean;
 };
