@@ -25,7 +25,7 @@ export default class ChartModel {
         _height: number,
         _state: number
     ) {
-        this.checkData(_data);
+        this.throwErrorOnInvalidParameters(_data);
         this.data = _data;
         this.width = _width;
         this.height = _height;
@@ -37,13 +37,24 @@ export default class ChartModel {
         this.parsedPath = parse(this.pathData.path);
     }
 
-    checkData = (data: ChartData) => {
+    throwErrorOnInvalidParameters = (data: ChartData) => {
         if (data.chartLabels) {
             if (data.chartLabels.length !== data.chartData.length) {
                 throw new Error(
                     `Length of chart labels not matching length of data. Expected ${data.chartData.length} labels.`
                 );
             }
+        }
+        if (data.updateCurrentValue && !data.displayCurrentValue) {
+            throw new Error(
+                "updateCurrentValue cannot be true if displayCurrentValue is false."
+            );
+        }
+
+        if (data.updatePercentageChange && !data.displayPercentageChange) {
+            throw new Error(
+                "updatePercentageChange cannot be true if displayPercentageChange is false."
+            );
         }
     };
 
