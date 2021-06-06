@@ -14,13 +14,16 @@ export type ChartData = {
     chartData: DataPoints[];
     // e.g. ticker
     title?: string | null;
-    // e.g. currency
-    subtitle?: string | null;
     // if true display value of current mouse position
     // if false displays last value
     displayCurrentValue?: boolean;
+    updateCurrentValue?: boolean;
     displayPercentageChange?: boolean;
+    updatePercentageChange?: boolean;
     displayPointLabels?: boolean;
+    updateDisplayPointLabels?: boolean;
+    // text to add after current value
+    currentValueDisplayPrefix?: string;
     // if true checks for max datapoints prop to display partial graph otherwise stretches graph to full width
     partialGraph?: boolean;
 };
@@ -34,4 +37,5 @@ export type ChartCursor = {
 export type DynamicHeaderData = {
     dataPointValue: number | null;
     percentChange: number | null;
+    label: string | null;
 };
