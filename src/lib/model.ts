@@ -31,12 +31,12 @@ export default class ChartModel {
         _height: number,
         _state: number
     ) {
-        this.throwErrorOnInvalidParameters(_data);
         this.data = _data;
         this.width = _width;
         this.height = _height;
         this.state = _state;
         this.morphing = false;
+        this.throwErrorOnInvalidParameters(_data);
 
         // calculate path stuff
         this.pathData = this.calcPath();
@@ -44,22 +44,28 @@ export default class ChartModel {
     }
 
     throwErrorOnInvalidParameters = (data: ChartData): void => {
+        data.chartData[this.state].points.forEach((point) => {
+            if (typeof point.value !== "number") {
+                throw new Error("Invalid value type for datapoint" + point);
+            }
+        });
+
         if (data.chartLabels) {
             if (data.chartLabels.length !== data.chartData.length) {
                 throw new Error(
-                    `Length of chart labels not matching length of data. Expected ${data.chartData.length} labels.`
+                    `Length of chart labels not matching length of data. Expected ${data.chartData.length} labels only got ${data.chartLabels.length}.`
                 );
             }
         }
         if (data.updateCurrentValue && !data.displayCurrentValue) {
             throw new Error(
-                "updateCurrentValue cannot be true if displayCurrentValue is false."
+                "updateCurrentValue cannot be true if displayCurrentValue is false or undefined."
             );
         }
 
         if (data.updatePercentageChange && !data.displayPercentageChange) {
             throw new Error(
-                "updatePercentageChange cannot be true if displayPercentageChange is false."
+                "updatePercentageChange cannot be true if displayPercentageChange is false or undefined."
             );
         }
     };
