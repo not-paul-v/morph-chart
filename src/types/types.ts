@@ -4,7 +4,7 @@ export type DataPoint = {
 };
 
 export type DataPoints = {
-    maxDataPoints: number | undefined;
+    maxDataPoints?: number;
     points: DataPoint[];
 };
 

@@ -1,9 +1,7 @@
-const parseSVG = require("parse-svg-path");
-const absSVG = require("abs-svg-path");
-// const normalizeSVG = require("normalize-svg-path");
-//@ts-ignore
-import normalizeSVG from "normalize-svg-path";
 import { Vector, cubicBezierYForX } from "./math";
+import parseSVG from "parse-svg-path";
+import absSVG from "abs-svg-path";
+import normalize from "normalize-svg-path";
 
 type SVGCloseCommand = ["Z"];
 type SVGMoveCommand = ["M", number, number];
@@ -25,8 +23,28 @@ export type Path = {
     close: boolean;
 };
 
+export const createPath = (move: Vector): Path => {
+    return {
+        move,
+        curves: [],
+        close: false
+    };
+};
+
+export const close = (path: Path): void => {
+    path.close = true;
+};
+
+export const addCurve = (path: Path, c: Curve): void => {
+    path.curves.push({
+        c1: c.c1,
+        c2: c.c2,
+        to: c.to
+    });
+};
+
 export const parse = (d: string): Path => {
-    const segments: SVGNormalizedCommands = normalizeSVG(absSVG(parseSVG(d)));
+    const segments: SVGNormalizedCommands = normalize(absSVG(parseSVG(d)));
     const path = createPath({ x: segments[0][1], y: segments[0][2] });
     segments.forEach((segment) => {
         if (segment[0] === "Z") {
@@ -49,29 +67,6 @@ export const parse = (d: string): Path => {
         }
     });
     return path;
-};
-
-export const createPath = (move: Vector): Path => {
-    "worklet";
-    return {
-        move,
-        curves: [],
-        close: false
-    };
-};
-
-export const close = (path: Path) => {
-    "worklet";
-    path.close = true;
-};
-
-export const addCurve = (path: Path, c: Curve) => {
-    "worklet";
-    path.curves.push({
-        c1: c.c1,
-        c2: c.c2,
-        to: c.to
-    });
 };
 
 interface SelectedCurve {
@@ -113,8 +108,7 @@ export const selectCurve = (path: Path, x: number): SelectedCurve => {
     return result;
 };
 
-export const getYForX = (path: Path, x: number, precision = 2) => {
-    "worklet";
+export const getYForX = (path: Path, x: number, precision = 2): number => {
     const c = selectCurve(path, x);
     return cubicBezierYForX(
         x,

@@ -1,19 +1,25 @@
 import * as shape from "d3-shape";
 import { scaleLinear } from "d3-scale";
-import { ChartData, DataPoint } from "../types/types";
+import { ChartData, DataPoint, DataPoints } from "../types/types";
 import { getYForX, parse, Path } from "./path";
 import { interpolatePath } from "d3-interpolate-path";
 import { mapValues, relativePercent } from "./math";
 import React from "react";
-
 const d3 = require("d3");
+
+type PathData = {
+    minPrice: number;
+    maxPrice: number;
+    datapoints: DataPoints;
+    path: string;
+};
 
 export default class ChartModel {
     data: ChartData;
     width: number;
     height: number;
     state: number;
-    pathData: any;
+    pathData: PathData;
     parsedPath: Path;
     morphing: boolean;
     /**
@@ -37,7 +43,7 @@ export default class ChartModel {
         this.parsedPath = parse(this.pathData.path);
     }
 
-    throwErrorOnInvalidParameters = (data: ChartData) => {
+    throwErrorOnInvalidParameters = (data: ChartData): void => {
         if (data.chartLabels) {
             if (data.chartLabels.length !== data.chartData.length) {
                 throw new Error(
@@ -58,16 +64,16 @@ export default class ChartModel {
         }
     };
 
-    calcPath = () => {
+    calcPath = (): PathData => {
         const datapoints = this.data.chartData[this.state];
         // Parse string to float
         const formattedValues = datapoints.points.map(
             (datapoint, index) => [datapoint.value, index] as [number, number]
         );
 
-        //Split formattedValues to prices and dates array
-        let prices = formattedValues.map((value) => value[0]);
-        let indices = formattedValues.map((value) => value[1]);
+        // Split formattedValues to prices and dates array
+        const prices = formattedValues.map((value) => value[0]);
+        const indices = formattedValues.map((value) => value[1]);
 
         // scales min_date-max_date to 0-SIZE
         // data_points - max_data_points -> 0 - width
@@ -105,12 +111,12 @@ export default class ChartModel {
         state: number,
         morph: boolean | undefined,
         ref: React.RefObject<SVGPathElement>
-    ) => {
+    ): void => {
         this.state = state;
 
         if (morph === true) {
-            let previous = this.pathData.path;
-            let interpolatedPathData = this.getInterpolatedPath();
+            const previous = this.pathData.path;
+            const interpolatedPathData = this.getInterpolatedPath();
 
             this.morphPath(previous, interpolatedPathData, state, ref);
         }
@@ -124,7 +130,7 @@ export default class ChartModel {
         newPath: (t: number) => string,
         newState: number,
         graphRef: React.RefObject<SVGPathElement>
-    ) => {
+    ): void => {
         d3.select(graphRef.current)
             .attr("d", oldPath)
             .transition()
@@ -139,12 +145,19 @@ export default class ChartModel {
             });
     };
 
-    getInterpolatedPath = () => {
-        let current = this.calcPath();
+    getInterpolatedPath = (): ((t: number) => string) => {
+        const current = this.calcPath();
         return interpolatePath(this.pathData.path, current.path);
     };
 
-    getXYValues = (xPosition: number, maxDataPoints: number) => {
+    getXYValues = (
+        xPosition: number,
+        maxDataPoints: number
+    ): {
+        dataPointsIndex: number;
+        xValue: number;
+        yValue: number;
+    } => {
         const dataPointsIndex = Math.abs(
             Math.floor(
                 mapValues(xPosition, [0, this.width], [0, maxDataPoints])
@@ -160,7 +173,7 @@ export default class ChartModel {
         return { dataPointsIndex, xValue, yValue };
     };
 
-    getYOnGraph = (x: number) => {
+    getYOnGraph = (x: number): number => {
         try {
             return getYForX(this.parsedPath, x);
         } catch (error) {
@@ -169,10 +182,11 @@ export default class ChartModel {
     };
 
     getMaxDataPoints = (): number => {
-        if (this.data.chartData[this.state].maxDataPoints === undefined) {
-            return this.data.chartData[this.state].points.length;
+        const currentDPs = this.data.chartData[this.state];
+        if (currentDPs.maxDataPoints === undefined) {
+            return currentDPs.points.length;
         } else {
-            return this.data.chartData[this.state].maxDataPoints!;
+            return currentDPs.maxDataPoints;
         }
     };
 

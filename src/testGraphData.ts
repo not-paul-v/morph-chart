@@ -6,17 +6,17 @@ export const graphData = {
         currency: "Dollar",
         prices: {
             latest: "212.07000732421875",
-            latest_price: {
+            latestPrice: {
                 amount: {
                     amount: "212.0800018310547",
                     currency: "Dollar"
                 },
                 timestamp: "2021-05-25T17:59:56",
-                percent_change: 0.0084873775755232
+                percentChange: 0.0084873775755232
             },
             day: {
-                max_data_points: 78,
-                percent_change: 0.0084873775755232,
+                maxDataPoints: 78,
+                percentChange: 0.0084873775755232,
                 prices: [
                     ["212.32", "09:30"],
                     ["213.18", "09:35"],
@@ -74,11 +74,11 @@ export const graphData = {
                     ["211.99", "13:55"],
                     ["212.08", "13:59"]
                 ],
-                data_points: 55
+                dataPoints: 55
             },
             week: {
-                max_data_points: 65,
-                percent_change: 0.004620877589013499,
+                maxDataPoints: 65,
+                percentChange: 0.004620877589013499,
                 prices: [
                     ["211.65", "May 19, 09:30"],
                     ["211.5", "May 19, 10:00"],
@@ -142,11 +142,11 @@ export const graphData = {
                     ["212.07", "May 25, 13:00"],
                     ["212.08", "May 25, 13:30"]
                 ],
-                data_points: 61
+                dataPoints: 61
             },
             month: {
-                max_data_points: 142,
-                percent_change: -0.09162065358009874,
+                maxDataPoints: 142,
+                percentChange: -0.09162065358009874,
                 prices: [
                     ["232.01", "Apr 26, 09:30"],
                     ["231.95", "Apr 26, 10:30"],
@@ -302,11 +302,11 @@ export const graphData = {
                     ["211.99", "May 25, 13:30"],
                     ["212.07", "May 25, 13:59"]
                 ],
-                data_points: 153
+                dataPoints: 153
             },
             year: {
-                max_data_points: 52,
-                percent_change: -0.024567318692609558,
+                maxDataPoints: 52,
+                percentChange: -0.024567318692609558,
                 prices: [
                     ["218.04", "Jun 04 2020"],
                     ["220.72", "Jun 09 2020"],
@@ -359,7 +359,7 @@ export const graphData = {
                     ["216.99", "May 20 2021"],
                     ["212.07", "May 25 2021"]
                 ],
-                data_points: 50
+                dataPoints: 50
             }
         }
     }
@@ -384,12 +384,10 @@ const prices = graphData.data.prices;
 
 const chartLabels = ["1D", "5D", "1M", "1Y"];
 const chartData = [];
-chartData.push(convert(prices.day.max_data_points, prices.day.prices));
+chartData.push(convert(prices.day.maxDataPoints, prices.day.prices));
 chartData.push(convert(prices.week.prices.length, prices.week.prices));
 chartData.push(convert(prices.month.prices.length, prices.month.prices));
 chartData.push(convert(prices.year.prices.length, prices.year.prices));
-
-console.log(chartData);
 
 export const ConvertedData: ChartData = {
     chartLabels,

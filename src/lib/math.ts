@@ -9,7 +9,7 @@ export const cubicBezier = (
     c1: number,
     c2: number,
     to: number
-) => {
+): number => {
     "worklet";
     const term = 1 - t;
     const a = 1 * term ** 3 * t ** 0 * from;
@@ -19,19 +19,19 @@ export const cubicBezier = (
     return a + b + c + d;
 };
 
-export const round = (value: number, precision = 0) => {
+export const round = (value: number, precision = 0): number => {
     "worklet";
     const p = Math.pow(10, precision);
     return Math.round(value * p) / p;
 };
 
-const cuberoot = (x: number) => {
+const cuberoot = (x: number): number => {
     "worklet";
     const y = Math.pow(Math.abs(x), 1 / 3);
     return x < 0 ? -y : y;
 };
 
-const solveCubic = (a: number, b: number, c: number, d: number) => {
+const solveCubic = (a: number, b: number, c: number, d: number): number[] => {
     "worklet";
     if (Math.abs(a) < 1e-8) {
         // Quadratic case, ax^2+bx+c=0
@@ -110,7 +110,7 @@ export const cubicBezierYForX = (
     c: Vector,
     d: Vector,
     precision = 2
-) => {
+): number => {
     "worklet";
     const pa = -a.x + 3 * b.x - 3 * c.x + d.x;
     const pb = 3 * a.x - 6 * b.x + 3 * c.x;
@@ -127,15 +127,15 @@ export const mapValues = (
     value: number,
     inputRange: number[],
     outputRange: number[]
-) => {
-    let leftSpan = inputRange[1] - inputRange[0];
-    let rightSpan = outputRange[1] - outputRange[0];
+): number => {
+    const leftSpan = inputRange[1] - inputRange[0];
+    const rightSpan = outputRange[1] - outputRange[0];
 
-    let valueScaled = (value - inputRange[0]) / leftSpan;
+    const valueScaled = (value - inputRange[0]) / leftSpan;
     return outputRange[0] + valueScaled * rightSpan;
 };
 
-export const relativePercent = (price: number, startPrice: number) => {
+export const relativePercent = (price: number, startPrice: number): number => {
     const increase = price - startPrice;
     const change = increase / startPrice;
     return change;

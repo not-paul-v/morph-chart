@@ -77,7 +77,6 @@
     "d3-interpolate-path": "^2.2.3",
     "d3-scale": "^3.3.0",
     "d3-shape": "^2.1.0",
-    "normalize-svg-path": "^1.1.0",
     "parse-svg-path": "^0.1.2"
   }
 }

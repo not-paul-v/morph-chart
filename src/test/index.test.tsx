@@ -1,7 +1,7 @@
-import { ExampleComponent } from '..'
+import ChartWrapper from '..'
 
-describe('ExampleComponent', () => {
+describe('ChartWrapper', () => {
   it('is truthy', () => {
-    expect(ExampleComponent).toBeTruthy()
+    expect(ChartWrapper).toBeTruthy()
   });
 });
