@@ -1,24 +1,20 @@
-/* add css module styles here (optional) */
-
-.test {
-    margin: 2em;
-    padding: 0.5em;
-    border: 2px solid #000;
-    font-size: 2em;
-    text-align: center;
-}
-
 .chartContainer {
-    background-color: aliceblue;
     position: relative;
     border-bottom: 1px solid rgb(114, 114, 114);
 }
 
+.graph {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .buttonContainer {
     position: absolute;
-    bottom: -1.5px;
+    bottom: 0px;
     left: 0px;
     margin-left: 10px;
+    margin-top: 2px;
+    height: 40px;
 }
 
 button {
@@ -37,10 +33,10 @@ button {
     border-bottom: 3px solid red;
 }
 
-.title {
-    /* position: absolute;
-    top: 2px;
-    left: 2px; */
+.header {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
 }
 
 .percent {

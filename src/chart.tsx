@@ -8,8 +8,8 @@ interface ChartProps {
     chartModel: ChartModel
 }
 
-const HEADER_HEIGHT = 50;
-const FOOTER_HEIGHT = 50;
+const HEADER_HEIGHT = 40;
+const FOOTER_HEIGHT = 60;
 
 function useForceUpdate(){
     const [value, setValue] = useState(0);
@@ -92,20 +92,23 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
 
     return(
         <div className={styles.chartContainer} style={{ width: chartModel.width, height: totalHeight }}>
-            <div className={styles.title}>
-                {`${chartModel.data.title} ${chartModel.data.currentValueDisplayPrefix ? chartModel.data.currentValueDisplayPrefix : ""}`}
-                {headerData.dataPointValue}
-            </div>
-            { !chartModel.data.displayPercentageChange ? null :
-                <div className={styles.percent}>
-                    {`${headerData.percentChange} % ${headerData.label}`}
+            <div className={styles.header}>
+                <div className={styles.title}>
+                    {`${chartModel.data.title} ${chartModel.data.currentValueDisplayPrefix ? chartModel.data.currentValueDisplayPrefix : ""}`}
+                    {headerData.dataPointValue}
                 </div>
-            }
+                { !chartModel.data.displayPercentageChange ? null :
+                    <div className={styles.percent}>
+                        {`${headerData.percentChange} % ${headerData.label}`}
+                    </div>
+                }
+            </div>
             <svg
                 width={chartModel.width}
                 height={chartModel.height}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
+                className={styles.graph}
             >
                 <path
                     d={chartModel.pathData.path !== null ? chartModel.pathData.path : ""}
