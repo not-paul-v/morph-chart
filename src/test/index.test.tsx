@@ -1,7 +1,6 @@
-import { assert } from 'console';
 import ChartWrapper from '..'
 import ChartModel from '../lib/model';
-import { ChartData, DataPoints } from '../types/types';
+import { ChartData } from '../types/types';
 
 describe('ChartWrapper', () => {
   it('is truthy', () => {
