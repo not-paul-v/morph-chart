@@ -10,7 +10,7 @@ interface ChartProps {
 
 const Chart: React.FC<ChartProps> = ({ chartModel }) => {
     const [chartCursor, setChartCursor] = useState({ x: 0, y: 0, show: false } as ChartCursor);
-    const [headerData, setHeaderData] = useState({ dataPointValue: null, percentChange: null } as DynamicHeaderData);
+    const [headerData, setHeaderData] = useState({ dataPointValue: null, percentChange: null, label: null } as DynamicHeaderData);
     const graphRef = useRef(null);
 
     useEffect(() => {
@@ -18,6 +18,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
             setHeaderData({
                 dataPointValue: chartModel.getLatestDataPoint().value,
                 percentChange: chartModel.getPercentChangeFromIndex(chartModel.getDataPointsLength() - 1),
+                label: chartModel.getLatestDataPoint().label
             });
         }
     });
@@ -27,7 +28,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
     }
 
     const handleMouseLeave = () => {
-        changeCurrentDataPointValue(ConvertedData.chartData[chartModel.state].points.length-1);
+        changeHeaderData(ConvertedData.chartData[chartModel.state].points.length-1);
         setChartCursor({
             x: 0,
             y: 0,
@@ -42,7 +43,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
         const maxDataPoints = chartModel.getMaxDataPoints();        
         const { dataPointsIndex, xValue, yValue } = chartModel.getXYValues(event.nativeEvent.offsetX, maxDataPoints);
 
-        changeCurrentDataPointValue(dataPointsIndex);
+        changeHeaderData(dataPointsIndex);
         setChartCursor({
             x: xValue,
             y: yValue,
@@ -50,11 +51,28 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
         });
     }
 
-    const changeCurrentDataPointValue = (index: number) => {
-        if (index < ConvertedData.chartData[chartModel.state].points.length) {
+    // TODO popup with values
+
+    const changeHeaderData = (index: number) => {
+        if (index < chartModel.getDataPointsLength()) {
+            let dpValue = headerData.dataPointValue;
+            let pcValue = headerData.percentChange;
+            let dpLabel = headerData.label;
+
+            if (chartModel.data.updateCurrentValue) {
+                dpValue = chartModel.getDataPointByIndex(index).value;
+            }
+            if (chartModel.data.updatePercentageChange) {
+                pcValue = chartModel.getPercentChangeFromIndex(index);
+            }
+            if (chartModel.data.updateDisplayPointLabels) {
+                dpLabel = chartModel.getDataPointByIndex(index).label;
+            }
+
             setHeaderData({
-                dataPointValue: chartModel.getDataPointByIndex(index).value,
-                percentChange: chartModel.getPercentChangeFromIndex(index)
+                dataPointValue: dpValue,
+                percentChange: pcValue,
+                label: dpLabel,
             });
         }
     }
@@ -62,11 +80,12 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
     return(
         <div className={styles.chartContainer} style={{ width: chartModel.width, height: chartModel.height }}>
             <div className={styles.title}>
-                { ConvertedData.title } { headerData.dataPointValue }
+                {`${chartModel.data.title} ${chartModel.data.currentValueDisplayPrefix ? chartModel.data.currentValueDisplayPrefix : ""}`}
+                {headerData.dataPointValue}
             </div>
             { !chartModel.data.displayPercentageChange ? null :
                 <div className={styles.percent}>
-                    { headerData.percentChange } %
+                    {`${headerData.percentChange} % ${headerData.label}`}
                 </div>
             }
             <svg
