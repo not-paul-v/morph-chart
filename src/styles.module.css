@@ -11,22 +11,36 @@
 .chartContainer {
     background-color: aliceblue;
     position: relative;
+    border-bottom: 1px solid rgb(114, 114, 114);
 }
 
 .buttonContainer {
     position: absolute;
-    bottom: 2px;
-    right: 2px;
+    bottom: -1.5px;
+    left: 0px;
+    margin-left: 10px;
 }
 
-.button {
-    margin-left: 2px;
+button {
+    margin-right: 20px;
+    border: 0px;
+    background: none;
+    box-shadow: none;
+    border-radius: 0px;
+    height: 40px;
+    font-size: small;
+    width: fit-content;
+    padding: 0;
+}
+
+.selectedButton {
+    border-bottom: 3px solid red;
 }
 
 .title {
-    position: absolute;
+    /* position: absolute;
     top: 2px;
-    left: 2px;
+    left: 2px; */
 }
 
 .percent {

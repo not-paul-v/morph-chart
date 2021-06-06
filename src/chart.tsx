@@ -8,10 +8,20 @@ interface ChartProps {
     chartModel: ChartModel
 }
 
+const HEADER_HEIGHT = 50;
+const FOOTER_HEIGHT = 50;
+
+function useForceUpdate(){
+    const [value, setValue] = useState(0);
+    return () => setValue(value + 1);
+}
+
 const Chart: React.FC<ChartProps> = ({ chartModel }) => {
     const [chartCursor, setChartCursor] = useState({ x: 0, y: 0, show: false } as ChartCursor);
     const [headerData, setHeaderData] = useState({ dataPointValue: null, percentChange: null, label: null } as DynamicHeaderData);
     const graphRef = useRef(null);
+    const forceUpdate = useForceUpdate();
+    const totalHeight = chartModel.height + HEADER_HEIGHT + FOOTER_HEIGHT;
 
     useEffect(() => {
         if (headerData.dataPointValue === null) {
@@ -25,6 +35,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
 
     const handleChartChangeClick = (state: number) => {
         chartModel.changeState(state, true, graphRef);
+        forceUpdate();
     }
 
     const handleMouseLeave = () => {
@@ -77,8 +88,10 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
         }
     }
 
+    console.log(chartModel.state);
+
     return(
-        <div className={styles.chartContainer} style={{ width: chartModel.width, height: chartModel.height }}>
+        <div className={styles.chartContainer} style={{ width: chartModel.width, height: totalHeight }}>
             <div className={styles.title}>
                 {`${chartModel.data.title} ${chartModel.data.currentValueDisplayPrefix ? chartModel.data.currentValueDisplayPrefix : ""}`}
                 {headerData.dataPointValue}
@@ -119,8 +132,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
                 <div className={styles.buttonContainer}>
                 {ConvertedData.chartLabels.map((value, index) => (
                     <button
-                    className={styles.button}
-                    style={index==chartModel?.state ? {color: "gray", cursor: "not-allowed"} : {}}
+                    className={index===chartModel?.state ? styles.selectedButton : ""}
                     key={index}
                     onClick={() => handleChartChangeClick(index)}
                     >{value}</button>
