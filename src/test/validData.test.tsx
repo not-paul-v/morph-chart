@@ -1,12 +1,5 @@
-import ChartWrapper from '..'
 import ChartModel from '../lib/model';
 import { ChartData } from '../types/types';
-
-describe('ChartWrapper', () => {
-  it('is truthy', () => {
-    expect(ChartWrapper).toBeTruthy()
-  });
-});
 
 describe("Throw error if data is invalid", () => {
   beforeEach(() => {
