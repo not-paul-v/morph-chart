@@ -11,6 +11,24 @@
   "engines": {
     "node": ">=10"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "<rootDir>/src/**/*.ts",
+      "<rootDir>/src/**/*.tsx",
+      "!<rootDir>/src/**/*.interface.ts",
+      "!<rootDir>/src/**/*.mock.ts",
+      "!<rootDir>/src/**/*.module.ts",
+      "!<rootDir>/src/**/*.spec.ts",
+      "!<rootDir>/src/**/*.test.tsx",
+      "!<rootDir>/src/**/*.d.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "lines": 90,
+        "statements": 90
+      }
+    }
+  },
   "scripts": {
     "build": "microbundle-crl --no-compress --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
@@ -20,6 +38,7 @@
     "test:build": "run-s build",
     "test:lint": "eslint --ext .ts .",
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
+    "test:coverage": "cross-env CI=1 react-scripts test --coverage",
     "test:watch": "react-scripts test --env=jsdom",
     "predeploy": "cd example && npm install && npm run build",
     "deploy": "gh-pages -d example/build"
