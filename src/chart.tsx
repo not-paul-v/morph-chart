@@ -9,7 +9,6 @@ interface ChartProps {
 }
 
 const HEADER_HEIGHT = 100;
-const FOOTER_HEIGHT = 60;
 
 function useForceUpdate(){
     const [value, setValue] = useState(0);
@@ -21,7 +20,6 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
     const [headerData, setHeaderData] = useState({ dataPointValue: null, percentChange: null, label: null } as DynamicHeaderData);
     const graphRef = useRef(null);
     const forceUpdate = useForceUpdate();
-    const totalHeight = chartModel.height + HEADER_HEIGHT + FOOTER_HEIGHT;
 
     useEffect(() => {
         if (headerData.dataPointValue === null) {
@@ -91,23 +89,16 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
     console.log(chartModel.state);
 
     return(
-        <div className={styles.chartContainer} style={{ width: chartModel.width, height: totalHeight }}>
+        <div className={styles.chartContainer} style={{ width: chartModel.width }}>
             <div style={{maxHeight: HEADER_HEIGHT}}>
                 <h1 className={styles.title}>{chartModel.data.title}</h1>
-                <h1 className={styles.title}>{headerData.dataPointValue}</h1>
-                <p className={styles.header}>{headerData.percentChange} % {headerData.label}</p>
+                {chartModel.data.displayCurrentValue ? <h1 className={styles.title}>{headerData.dataPointValue}</h1> : null}
+                <p className={styles.header}>
+                    {chartModel.data.displayPercentageChange ? `${headerData.percentChange}%` : null}
+                    <span>&nbsp;</span>
+                    {chartModel.data.displayPointLabels ? headerData.label : null}
+                </p>
             </div>
-            {/* <div className={styles.header}>
-                <div className={styles.title}>
-                    {`${chartModel.data.title} ${chartModel.data.currentValueDisplayPrefix ? chartModel.data.currentValueDisplayPrefix : ""}`}
-                    {headerData.dataPointValue}
-                </div>
-                { !chartModel.data.displayPercentageChange ? null :
-                    <div className={styles.percent}>
-                        {`${headerData.percentChange} % ${headerData.label}`}
-                    </div>
-                }
-            </div> */}
             <svg
                 width={chartModel.width}
                 height={chartModel.height}
@@ -117,7 +108,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
             >
                 <path
                     d={chartModel.pathData.path !== null ? chartModel.pathData.path : ""}
-                    style={{ fill: "transparent", stroke: "blue", strokeWidth: 3 }}
+                    style={{ fill: "transparent", stroke: "#E64801", strokeWidth: 3 }}
                     ref={graphRef}
                 />
                 <circle 
