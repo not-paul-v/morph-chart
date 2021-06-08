@@ -8,7 +8,7 @@ interface ChartProps {
     chartModel: ChartModel
 }
 
-const HEADER_HEIGHT = 40;
+const HEADER_HEIGHT = 100;
 const FOOTER_HEIGHT = 60;
 
 function useForceUpdate(){
@@ -92,7 +92,12 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
 
     return(
         <div className={styles.chartContainer} style={{ width: chartModel.width, height: totalHeight }}>
-            <div className={styles.header}>
+            <div style={{maxHeight: HEADER_HEIGHT}}>
+                <h1 className={styles.title}>{chartModel.data.title}</h1>
+                <h1 className={styles.title}>{headerData.dataPointValue}</h1>
+                <p className={styles.header}>{headerData.percentChange} % {headerData.label}</p>
+            </div>
+            {/* <div className={styles.header}>
                 <div className={styles.title}>
                     {`${chartModel.data.title} ${chartModel.data.currentValueDisplayPrefix ? chartModel.data.currentValueDisplayPrefix : ""}`}
                     {headerData.dataPointValue}
@@ -102,7 +107,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
                         {`${headerData.percentChange} % ${headerData.label}`}
                     </div>
                 }
-            </div>
+            </div> */}
             <svg
                 width={chartModel.width}
                 height={chartModel.height}
@@ -112,23 +117,22 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
             >
                 <path
                     d={chartModel.pathData.path !== null ? chartModel.pathData.path : ""}
-                    style={{ fill: "transparent", stroke: "blue", strokeWidth: 4 }}
+                    style={{ fill: "transparent", stroke: "blue", strokeWidth: 3 }}
                     ref={graphRef}
                 />
                 <circle 
                     cx={chartCursor.x} cy={chartCursor.y} 
-                    r={chartCursor.show ? 5 : 0} 
-                    stroke="gray" 
-                    strokeWidth={20} 
-                    strokeOpacity={0.40} 
+                    r={chartCursor.show ? 6 : 0}
+                    stroke="white"
+                    strokeWidth={2}
                     fill="black" 
                 />
                 <line 
-                    strokeWidth={chartCursor.show ? 3 : 0} 
+                    strokeWidth={chartCursor.show ? 2 : 0} 
                     x1={chartCursor.x} y1={chartModel.height} 
                     x2={chartCursor.x} y2={chartCursor.y} 
                     stroke="black"
-                    strokeDasharray={4} opacity={0.7}
+                    opacity={0.7}
                 />
             </svg>
             { ConvertedData.chartLabels === null ? null :
@@ -138,7 +142,9 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
                     className={index===chartModel?.state ? styles.selectedButton : ""}
                     key={index}
                     onClick={() => handleChartChangeClick(index)}
-                    >{value}</button>
+                    >
+                        {value}
+                    </button>
                 ))}
                 </div>
             }
