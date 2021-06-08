@@ -13,7 +13,7 @@ const data = {
 }
 
 const App = () => {
-  return <Chart width={800} height={400} data={data} />
+  return <Chart width={700} height={200} data={data} />
 }
 
 export default App
