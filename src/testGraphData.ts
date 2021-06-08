@@ -393,10 +393,10 @@ export const ConvertedData: ChartData = {
     chartLabels,
     chartData,
     displayCurrentValue: true,
-    updateCurrentValue: true,
     displayPercentageChange: true,
-    updatePercentageChange: true,
     displayPointLabels: true,
+    updateCurrentValue: true,
+    updatePercentageChange: true,
     updateDisplayPointLabels: true,
     partialGraph: true,
     title: "BABA"
