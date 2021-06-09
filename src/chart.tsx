@@ -86,8 +86,6 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
         }
     }
 
-    console.log(chartModel.state);
-
     return(
         <div className={styles.chartContainer} style={{ width: chartModel.width }}>
             <div style={{maxHeight: HEADER_HEIGHT}}>
