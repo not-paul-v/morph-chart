@@ -99,7 +99,7 @@ export default class ChartModel {
         // scales min_prices-max_price to SIZE-0 (flipped range)
         const scaleY = scaleLinear()
             .domain([minPrice, maxPrice])
-            .range([this.height, 0]);
+            .range([this.height - 10, 10]);
 
         return {
             minPrice,
