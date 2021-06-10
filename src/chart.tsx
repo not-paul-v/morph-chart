@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import ChartModel from './lib/model';
 import styles from "./styles.module.css";
 import { ConvertedData } from './testGraphData';
-import { ChartCursor, DynamicHeaderData } from './types/types';
+import { ChartCursor, DynamicHeaderData, DynamicPopupData } from './types/types';
 
 interface ChartProps {
     chartModel: ChartModel
@@ -18,6 +18,7 @@ function useForceUpdate(){
 const Chart: React.FC<ChartProps> = ({ chartModel }) => {
     const [chartCursor, setChartCursor] = useState({ x: 0, y: 0, show: false } as ChartCursor);
     const [headerData, setHeaderData] = useState({ dataPointValue: null, percentChange: null, label: null } as DynamicHeaderData);
+    const [popupData, setPopupData] = useState({ value: 0, label: "", x: 0, y: 0, show: false, width: 200, height: 100 } as DynamicPopupData);
     const graphRef = useRef(null);
     const forceUpdate = useForceUpdate();
 
@@ -83,6 +84,16 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
                 percentChange: pcValue,
                 label: dpLabel,
             });
+
+            setPopupData({
+                label: dpLabel || "",
+                value: dpValue || 0,
+                show: true,
+                x: popupData.x,
+                y: popupData.y,
+                width: popupData.width,
+                height: popupData.height,
+            })
         }
     }
 
@@ -122,6 +133,12 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
                     x2={chartCursor.x} y2={chartCursor.y} 
                     stroke="black"
                     opacity={0.7}
+                />
+                <rect
+                    x={popupData.x + popupData.width > chartModel.width ? popupData.x - popupData.width : popupData.x}
+                    y={popupData.y}
+                    width={popupData.width}
+                    height={popupData.height}
                 />
             </svg>
             { ConvertedData.chartLabels === null ? null :
