@@ -39,3 +39,13 @@ export type DynamicHeaderData = {
     percentChange: number | null;
     label: string | null;
 };
+
+export type DynamicPopupData = {
+    value: number;
+    label: string;
+    x: number;
+    y: number;
+    show: boolean;
+    width: number;
+    height: number;
+};
