@@ -88,14 +88,21 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
 
     return(
         <div className={styles.chartContainer} style={{ width: chartModel.width }}>
-            <div style={{maxHeight: HEADER_HEIGHT}}>
+            <div style={{maxHeight: HEADER_HEIGHT}} className="header">
                 <h1 className={styles.title}>{chartModel.data.title}</h1>
-                {chartModel.data.displayCurrentValue ? <h1 className={styles.title}>{headerData.dataPointValue}</h1> : null}
-                <p className={styles.header}>
-                    {chartModel.data.displayPercentageChange ? `${headerData.percentChange}%` : null}
-                    <span>&nbsp;</span>
-                    {chartModel.data.displayPointLabels ? headerData.label : null}
-                </p>
+                {!chartModel.data.displayCurrentValue ? null : 
+                    <h1 className={styles.dpValue}>{headerData.dataPointValue}</h1>
+                }
+                {!chartModel.data.displayPercentageChange && !chartModel.data.displayPointLabels ? null : 
+                    <div>
+                        <p className={styles.percentChange}>
+                            {chartModel.data.displayPercentageChange ? `${headerData.percentChange}%` : null}
+                        </p>
+                        <p className={styles.label}>
+                            {chartModel.data.displayPointLabels ? headerData.label : null}
+                        </p>
+                    </div>
+                }
             </div>
             <svg
                 width={chartModel.width}
