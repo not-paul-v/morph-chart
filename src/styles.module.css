@@ -30,13 +30,16 @@ button {
     border-bottom: 3px solid red;
 }
 
-.header {
+.percentChange,
+.label {
     padding-top: 2px;
     margin: 0px;
     margin-left: 2px;
+    display: inline-block;
 }
 
-.title {
+.title,
+.dpValue {
     margin: 0px;
     font-weight: 400;
     margin-left: 2px;
