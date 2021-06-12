@@ -9,6 +9,17 @@ describe("Throw error if data is invalid", () => {
     const chartData: ChartData = {
       chartData: [{ points: [{ value: 0, label: "" }] }, { points: [{ value: 0, label: "" }] }],
       chartLabels: ["test"],
+      header: {
+        currentValue: {
+          display: false
+        },
+        percentageChange: {
+          display: false
+        },
+        labels: {
+          display: false
+        }
+      }
     }
 
     const t = () => {
@@ -22,8 +33,18 @@ describe("Throw error if data is invalid", () => {
     const chartData: ChartData = {
       chartData: [{ points: [{ value: 0, label: "" }] }, { points: [{ value: 0, label: "" }] }],
       chartLabels: ["", ""],
-      displayCurrentValue: false,
-      updateCurrentValue: true,
+      header: {
+        currentValue: {
+          display: false,
+          update: true
+        },
+        percentageChange: {
+          display: false
+        },
+        labels: {
+          display: false
+        }
+      }
     }
     
     const t = () => {
@@ -37,8 +58,18 @@ describe("Throw error if data is invalid", () => {
     const chartData: ChartData = {
       chartData: [{ points: [{ value: 0, label: "" }] }, { points: [{ value: 0, label: "" }] }],
       chartLabels: ["", ""],
-      displayPercentageChange: false,
-      updatePercentageChange: true,
+      header: {
+        currentValue: {
+          display: true
+        },
+        percentageChange: {
+          display: false,
+          update: true
+        },
+        labels: {
+          display: false
+        }
+      }
     }
     
     const t = () => {
@@ -51,7 +82,18 @@ describe("Throw error if data is invalid", () => {
   it("calculates path data as planned if input data is valid", () => {
     const chartData: ChartData = {
       chartData: [{ points: [{ value: 0, label: "" }, { value: 1, label: "" }] }, { points: [{ value: 1, label: "" }, { value: 0, label: "" }] }],
-      chartLabels: ["first test", "second test"]
+      chartLabels: ["first test", "second test"],
+      header: {
+        currentValue: {
+          display: false
+        },
+        percentageChange: {
+          display: false
+        },
+        labels: {
+          display: false
+        }
+      }
     }
 
     let chartModel = new ChartModel(chartData, 400, 400, 0);
