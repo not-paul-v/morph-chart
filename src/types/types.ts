@@ -14,14 +14,29 @@ export type ChartData = {
     chartData: DataPoints[];
     // e.g. ticker
     title?: string | null;
-    // if true display value of current mouse position
-    // if false displays last value
-    displayCurrentValue?: boolean;
-    updateCurrentValue?: boolean;
-    displayPercentageChange?: boolean;
-    updatePercentageChange?: boolean;
-    displayPointLabels?: boolean;
-    updateDisplayPointLabels?: boolean;
+    // showAxis?: {
+    //     x: boolean;
+    //     y: boolean;
+    // };
+    header: {
+        currentValue: {
+            display: boolean;
+            update?: boolean;
+            prefix?: string;
+            suffix?: string;
+        };
+        percentageChange: {
+            display: boolean;
+            update?: boolean;
+        };
+        labels: {
+            display: boolean;
+            update?: boolean;
+        };
+    };
+    cursor?: {
+        display?: boolean;
+    };
     // text to add after current value
     currentValueDisplayPrefix?: string;
     // if true checks for max datapoints prop to display partial graph otherwise stretches graph to full width
