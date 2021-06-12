@@ -392,12 +392,22 @@ chartData.push(convert(prices.year.prices.length, prices.year.prices));
 export const ConvertedData: ChartData = {
     chartLabels,
     chartData,
-    displayCurrentValue: true,
-    displayPercentageChange: true,
-    displayPointLabels: true,
-    updateCurrentValue: true,
-    updatePercentageChange: true,
-    updateDisplayPointLabels: true,
+    header: {
+        currentValue: {
+            display: true,
+            update: true
+        },
+        percentageChange: {
+            display: true
+        },
+        labels: {
+            display: true,
+            update: true
+        }
+    },
+    cursor: {
+        display: true
+    },
     partialGraph: true,
     title: "BABA"
 };
