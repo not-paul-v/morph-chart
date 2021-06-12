@@ -18,7 +18,7 @@ export type ChartData = {
     //     x: boolean;
     //     y: boolean;
     // };
-    header: {
+    header?: {
         currentValue: {
             display: boolean;
             update?: boolean;

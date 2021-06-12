@@ -36,6 +36,26 @@ export default class ChartModel {
         this.height = _height;
         this.state = _state;
         this.morphing = false;
+
+        // TODO maybe own class to load default values?
+
+        if (_data.header === undefined) {
+            _data.header = {
+                currentValue: {
+                    display: true,
+                    update: true
+                },
+                percentageChange: {
+                    display: true,
+                    update: true
+                },
+                labels: {
+                    display: true,
+                    update: true
+                }
+            };
+        }
+
         this.throwErrorOnInvalidParameters(_data);
 
         // calculate path stuff
@@ -59,15 +79,15 @@ export default class ChartModel {
         }
 
         const header = data.header;
-        if (header.currentValue.update && !header.currentValue.display) {
+        if (header!.currentValue.update && !header!.currentValue.display) {
             throw new Error(
                 "updateCurrentValue cannot be true if displayCurrentValue is false or undefined."
             );
         }
 
         if (
-            header.percentageChange.update &&
-            !header.percentageChange.display
+            header!.percentageChange.update &&
+            !header!.percentageChange.display
         ) {
             throw new Error(
                 "updatePercentageChange cannot be true if displayPercentageChange is false or undefined."

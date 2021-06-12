@@ -66,7 +66,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
             let pcValue = headerData.percentChange;
             let dpLabel = headerData.label;
 
-            const headerConfig = chartModel.data.header;
+            const headerConfig = chartModel.data.header!;
 
             if (headerConfig.currentValue.update) {
                 dpValue = chartModel.getDataPointByIndex(index).value;
@@ -86,7 +86,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
         }
     }
 
-    const headerConfig = chartModel.data.header;
+    const headerConfig = chartModel.data.header!;
 
     return(
         <div className={styles.chartContainer} style={{ width: chartModel.width }}>
