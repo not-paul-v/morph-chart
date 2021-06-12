@@ -57,13 +57,18 @@ export default class ChartModel {
                 );
             }
         }
-        if (data.updateCurrentValue && !data.displayCurrentValue) {
+
+        const header = data.header;
+        if (header.currentValue.update && !header.currentValue.display) {
             throw new Error(
                 "updateCurrentValue cannot be true if displayCurrentValue is false or undefined."
             );
         }
 
-        if (data.updatePercentageChange && !data.displayPercentageChange) {
+        if (
+            header.percentageChange.update &&
+            !header.percentageChange.display
+        ) {
             throw new Error(
                 "updatePercentageChange cannot be true if displayPercentageChange is false or undefined."
             );
