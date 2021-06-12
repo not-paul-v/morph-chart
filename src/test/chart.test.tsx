@@ -19,10 +19,19 @@ describe('ChartWrapper', () => {
   });
 
   it("should display no header", () => {
+    const headerConfig = {
+      currentValue: {
+        display: false
+      },
+      percentageChange: {
+        display: false
+      },
+      labels: {
+        display: false
+      }
+    }
     ConvertedData.title = null;
-    ConvertedData.displayCurrentValue = false;
-    ConvertedData.displayPercentageChange = false;
-    ConvertedData.displayPointLabels = false;
+    ConvertedData.header = headerConfig;
 
     const { container } = render(
       <ChartWrapper width={size.width} height={size.height} data={ConvertedData} />
@@ -48,10 +57,19 @@ describe('ChartWrapper', () => {
   });
 
   it("should dispaly datapoint value, percentchange and label in header", () => {
+    const headerConfig = {
+      currentValue: {
+        display: true
+      },
+      percentageChange: {
+        display: true
+      },
+      labels: {
+        display: true
+      }
+    }
     ConvertedData.title = "title";
-    ConvertedData.displayCurrentValue = true;
-    ConvertedData.displayPercentageChange = true;
-    ConvertedData.displayPointLabels = true;
+    ConvertedData.header = headerConfig;
 
     const { container } = render(
       <ChartWrapper width={size.width} height={size.height} data={ConvertedData} />
