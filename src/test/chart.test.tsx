@@ -2,7 +2,6 @@ import React from 'react';
 import ChartWrapper from '..'
 import { render, screen } from '@testing-library/react';
 import {ConvertedData} from "../testGraphData";
-import { relativePercent } from '../lib/math';
 
 describe('ChartWrapper', () => {
   const size = { width: 400, height: 200}
