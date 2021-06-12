@@ -2,6 +2,7 @@ import React from 'react';
 import ChartWrapper from '..'
 import { render, screen } from '@testing-library/react';
 import {ConvertedData} from "../testGraphData";
+import { relativePercent } from '../lib/math';
 
 describe('ChartWrapper', () => {
   const size = { width: 400, height: 200}
@@ -78,10 +79,13 @@ describe('ChartWrapper', () => {
     const title = container.getElementsByClassName("title")[0];
     const percentChange = container.getElementsByClassName("percentChange")[0];
     const label = container.getElementsByClassName("label")[0];
+    const datapointValue = container.getElementsByClassName("dpValue")[0];
+    const datapoints = ConvertedData.chartData[0].points;
 
-    // expect(headerElements.length).toBe(1);
+
     expect(title.textContent).toBe("title");
     expect(percentChange.textContent).toBe("-0.11%");
-    expect(label.textContent).toBe("13:59");
+    expect(label.textContent).toBe(datapoints[datapoints.length - 1].label);
+    expect(datapointValue.textContent).toBe(datapoints[datapoints.length - 1].value.toString());
   });
 });
