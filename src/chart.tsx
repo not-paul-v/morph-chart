@@ -46,7 +46,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
     }
 
     const handleMouseMove = (event: React.MouseEvent) => {
-        if (chartModel.morphing)
+        if (chartModel.morphing || !chartModel.data.cursor?.display)
             return;
 
         const maxDataPoints = chartModel.getMaxDataPoints();        
@@ -60,21 +60,21 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
         });
     }
 
-    // TODO popup with values
-
     const changeHeaderData = (index: number) => {
         if (index < chartModel.getDataPointsLength()) {
             let dpValue = headerData.dataPointValue;
             let pcValue = headerData.percentChange;
             let dpLabel = headerData.label;
 
-            if (chartModel.data.updateCurrentValue) {
+            const headerConfig = chartModel.data.header;
+
+            if (headerConfig.currentValue.update) {
                 dpValue = chartModel.getDataPointByIndex(index).value;
             }
-            if (chartModel.data.updatePercentageChange) {
+            if (headerConfig.percentageChange.update) {
                 pcValue = chartModel.getPercentChangeFromIndex(index);
             }
-            if (chartModel.data.updateDisplayPointLabels) {
+            if (headerConfig.labels.update) {
                 dpLabel = chartModel.getDataPointByIndex(index).label;
             }
 
@@ -86,20 +86,22 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
         }
     }
 
+    const headerConfig = chartModel.data.header;
+
     return(
         <div className={styles.chartContainer} style={{ width: chartModel.width }}>
             <div style={{maxHeight: HEADER_HEIGHT}} className="header">
                 <h1 className={styles.title}>{chartModel.data.title}</h1>
-                {!chartModel.data.displayCurrentValue ? null : 
+                {!headerConfig.currentValue.display ? null : 
                     <h1 className={styles.dpValue}>{headerData.dataPointValue}</h1>
                 }
-                {!chartModel.data.displayPercentageChange && !chartModel.data.displayPointLabels ? null : 
+                {!headerConfig.percentageChange.display && !headerConfig.labels.display ? null : 
                     <div>
                         <p className={styles.percentChange}>
-                            {chartModel.data.displayPercentageChange ? `${headerData.percentChange}%` : null}
+                            {headerConfig.percentageChange.display ? `${headerData.percentChange}%` : null}
                         </p>
                         <p className={styles.label}>
-                            {chartModel.data.displayPointLabels ? headerData.label : null}
+                            {headerConfig.labels.display ? headerData.label : null}
                         </p>
                     </div>
                 }
@@ -124,7 +126,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
                     fill="black" 
                 />
                 <line 
-                    strokeWidth={chartCursor.show ? 2 : 0} 
+                    strokeWidth={chartCursor.show ? 1.5 : 0} 
                     x1={chartCursor.x} y1={chartModel.height} 
                     x2={chartCursor.x} y2={chartCursor.y} 
                     stroke="black"
