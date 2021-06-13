@@ -35,7 +35,7 @@ export type ChartData = {
         };
     };
     cursor?: {
-        display?: boolean;
+        display: boolean;
     };
     // text to add after current value
     currentValueDisplayPrefix?: string;
@@ -53,4 +53,21 @@ export type DynamicHeaderData = {
     dataPointValue: number | null;
     percentChange: number | null;
     label: string | null;
+};
+
+export type HeaderConfig = {
+    currentValue: {
+        display: boolean;
+        update: boolean;
+        prefix: string;
+        suffix: string;
+    };
+    percentageChange: {
+        display: boolean;
+        update: boolean;
+    };
+    labels: {
+        display: boolean;
+        update: boolean;
+    };
 };
