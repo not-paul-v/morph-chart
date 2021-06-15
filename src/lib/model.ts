@@ -5,6 +5,7 @@ import { getYForX, parse, Path } from "./path";
 import { interpolatePath } from "d3-interpolate-path";
 import { mapValues, relativePercent } from "./math";
 import React from "react";
+import DataLoader from "./dataLoader";
 const d3 = require("d3");
 
 type PathData = {
@@ -31,69 +32,15 @@ export default class ChartModel {
         _height: number,
         _state: number
     ) {
-        this.data = _data;
+        this.data = new DataLoader(_data);
         this.width = _width;
         this.height = _height;
         this.state = _state;
         this.morphing = false;
 
-        // TODO maybe own class to load default values?
-
-        if (_data.header === undefined) {
-            _data.header = {
-                currentValue: {
-                    display: true,
-                    update: true
-                },
-                percentageChange: {
-                    display: true,
-                    update: true
-                },
-                labels: {
-                    display: true,
-                    update: true
-                }
-            };
-        }
-
-        this.throwErrorOnInvalidParameters(_data);
-
-        // calculate path stuff
         this.pathData = this.calcPath();
         this.parsedPath = parse(this.pathData.path);
     }
-
-    throwErrorOnInvalidParameters = (data: ChartData): void => {
-        data.chartData[this.state].points.forEach((point) => {
-            if (typeof point.value !== "number") {
-                throw new Error("Invalid value type for datapoint" + point);
-            }
-        });
-
-        if (data.chartLabels) {
-            if (data.chartLabels.length !== data.chartData.length) {
-                throw new Error(
-                    `Length of chart labels not matching length of data. Expected ${data.chartData.length} labels only got ${data.chartLabels.length}.`
-                );
-            }
-        }
-
-        const header = data.header;
-        if (header!.currentValue.update && !header!.currentValue.display) {
-            throw new Error(
-                "updateCurrentValue cannot be true if displayCurrentValue is false or undefined."
-            );
-        }
-
-        if (
-            header!.percentageChange.update &&
-            !header!.percentageChange.display
-        ) {
-            throw new Error(
-                "updatePercentageChange cannot be true if displayPercentageChange is false or undefined."
-            );
-        }
-    };
 
     calcPath = (): PathData => {
         const datapoints = this.data.chartData[this.state];
