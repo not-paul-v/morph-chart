@@ -61,7 +61,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
     }
 
     const changeHeaderData = (index: number) => {
-        if (index < chartModel.getDataPointsLength()) {
+        if (index < chartModel.getDataPointsLength() && index >= 0) {
             let dpValue = headerData.dataPointValue;
             let pcValue = headerData.percentChange;
             let dpLabel = headerData.label;
