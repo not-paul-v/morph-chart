@@ -81,7 +81,9 @@ export default class ChartModel {
                 .line()
                 .x(([, x]) => scaleX(x) as number)
                 .y(([y]) => scaleY(y) as number)
-                .curve(shape.curveBasis)(formattedValues) as string
+                .curve(shape.curveCatmullRom.alpha(0.2))(
+                formattedValues
+            ) as string
         };
     };
 
@@ -137,18 +139,30 @@ export default class ChartModel {
         yValue: number;
     } => {
         const dataPointsIndex = Math.abs(
-            Math.floor(
-                mapValues(xPosition, [0, this.width], [0, maxDataPoints])
+            Math.round(
+                mapValues(xPosition, [0, this.width], [0, maxDataPoints - 1])
             )
         );
+
+        if (dataPointsIndex >= this.data.chartData[this.state].points.length) {
+            return { dataPointsIndex: -1, xValue: -1, yValue: -1 };
+        }
+
         const xValue = mapValues(
             dataPointsIndex,
             [0, maxDataPoints - 1],
             [0, this.width]
         );
-        const yValue = this.getYOnGraph(xValue);
 
-        return { dataPointsIndex, xValue, yValue };
+        const yValue =
+            this.data.chartData[this.state].points[dataPointsIndex].value;
+        const yCord = mapValues(
+            yValue,
+            [this.pathData.minPrice, this.pathData.maxPrice],
+            [this.height - 10, 10]
+        );
+
+        return { dataPointsIndex, xValue, yValue: yCord };
     };
 
     getYOnGraph = (x: number): number => {
