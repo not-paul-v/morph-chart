@@ -17,6 +17,12 @@ const defaultHeader = {
     }
 } as HeaderConfig;
 
+const defaultCursor = {
+    display: true,
+    cursorColor: "black",
+    lineColor: "black"
+};
+
 export default class DataLoader {
     chartLabels: string[] | null;
     chartData: DataPoints[];
@@ -24,6 +30,8 @@ export default class DataLoader {
     header: any;
     cursor: {
         display: boolean;
+        lineColor: string | null;
+        cursorColor: string | null;
     };
     currentValueDisplayPrefix: string;
     partialGraph: boolean;
@@ -36,7 +44,7 @@ export default class DataLoader {
         chartData,
         title = null,
         header = defaultHeader,
-        cursor = { display: true },
+        cursor = defaultCursor,
         currentValueDisplayPrefix = "",
         partialGraph = false
     }: ChartData) {

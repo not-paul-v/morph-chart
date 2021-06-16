@@ -13,12 +13,8 @@ export type ChartData = {
     // chart data length has to match chartTypes length if > 1
     chartData: DataPoints[];
     // e.g. ticker
-    title?: string | null;
-    // showAxis?: {
-    //     x: boolean;
-    //     y: boolean;
-    // };
-    header?: {
+    title: string | null;
+    header: {
         currentValue: {
             display: boolean;
             update?: boolean;
@@ -34,8 +30,10 @@ export type ChartData = {
             update?: boolean;
         };
     };
-    cursor?: {
+    cursor: {
         display: boolean;
+        lineColor: string | null;
+        cursorColor: string | null;
     };
     // text to add after current value
     currentValueDisplayPrefix?: string;

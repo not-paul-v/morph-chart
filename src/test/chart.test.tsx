@@ -1,6 +1,6 @@
 import React from 'react';
 import ChartWrapper from '..'
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import {ConvertedData} from "../testGraphData";
 
 describe('ChartWrapper', () => {
