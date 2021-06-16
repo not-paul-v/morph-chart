@@ -120,16 +120,16 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
                 />
                 <circle 
                     cx={chartCursor.x} cy={chartCursor.y} 
-                    r={chartCursor.show && !chartModel.data.cursor?.cursorColor == null ? 6 : 0}
+                    r={chartCursor.show ? 6 : 0}
                     stroke="white"
                     strokeWidth={2}
-                    fill={chartModel.data.cursor.cursorColor || ""}
+                    fill={chartModel.data.cursor?.cursorColor || ""}
                 />
                 <line 
-                    strokeWidth={chartCursor.show && !chartModel.data.cursor?.cursorColor == null ? 1.5 : 0} 
+                    strokeWidth={chartCursor.show ? 1.5 : 0} 
                     x1={chartCursor.x} y1={chartModel.height} 
                     x2={chartCursor.x} y2={chartCursor.y} 
-                    stroke={chartModel.data.cursor.lineColor || ""}
+                    stroke={chartModel.data.cursor?.lineColor || ""}
                     opacity={0.7}
                 />
             </svg>

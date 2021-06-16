@@ -405,11 +405,6 @@ export const ConvertedData: ChartData = {
             update: true
         }
     },
-    cursor: {
-        display: true,
-        cursorColor: null,
-        lineColor: null
-    },
     partialGraph: true,
     title: "BABA"
 };

@@ -30,7 +30,7 @@ export type ChartData = {
             update?: boolean;
         };
     };
-    cursor: {
+    cursor?: {
         display: boolean;
         lineColor: string | null;
         cursorColor: string | null;
