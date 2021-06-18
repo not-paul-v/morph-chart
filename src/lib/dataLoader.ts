@@ -77,7 +77,10 @@ export default class DataLoader {
         });
 
         if (data.chartLabels) {
-            if (data.chartLabels.length !== data.chartData.length) {
+            if (
+                data.chartLabels.length > 0 &&
+                data.chartLabels.length !== data.chartData.length
+            ) {
                 throw new Error(
                     `Length of chart labels not matching length of data. Expected ${data.chartData.length} labels only got ${data.chartLabels.length}.`
                 );
