@@ -13,8 +13,8 @@ export type ChartData = {
     // chart data length has to match chartTypes length if > 1
     chartData: DataPoints[];
     // e.g. ticker
-    title: string | null;
-    header: {
+    title?: string | null;
+    header?: {
         currentValue: {
             display: boolean;
             update?: boolean;
