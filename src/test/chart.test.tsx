@@ -2,6 +2,7 @@ import React from 'react';
 import ChartWrapper from '..'
 import { render } from '@testing-library/react';
 import {ConvertedData} from "../testGraphData";
+import { ChartData } from '../types/types';
 
 describe('ChartWrapper', () => {
   const size = { width: 400, height: 200}
@@ -86,5 +87,23 @@ describe('ChartWrapper', () => {
     expect(percentChange.textContent).toBe("-0.11%");
     expect(label.textContent).toBe(datapoints[datapoints.length - 1].label);
     expect(datapointValue.textContent).toBe(datapoints[datapoints.length - 1].value.toString());
+  });
+
+  it("should not display buttons", () => {
+    const data: ChartData = {
+      chartLabels: [],
+      chartData: [{ points: [{ value: 0, label: "" }, { value: 1, label: "" }] }],
+      title: null
+    };
+
+    const { container } = render(
+      <ChartWrapper width={size.width} height={size.height} data={data} />
+    );
+
+    const title = container.getElementsByClassName("title")[0];
+    const buttons = container.getElementsByClassName("buttonContainer")[0];
+
+    expect(title.textContent).toBe("");
+    expect(buttons.clientWidth).toBe(0);
   });
 });
