@@ -2,7 +2,6 @@ import React from 'react';
 import ChartModel from './lib/model';
 import Chart from './chart';
 import { ChartData } from './types/types';
-import { ConvertedData } from './testGraphData';
 
 type ChartProps = {
     width: number;
@@ -11,9 +10,7 @@ type ChartProps = {
 };
 
 const ChartWrapper = ({ width, height, data }: ChartProps) => {
-  console.log(width, height, data);
-
-  const chartModel = new ChartModel(ConvertedData, width, height, 0);
+  const chartModel = new ChartModel(data, width, height, 0);
 
   return (
     <Chart chartModel={chartModel} />
