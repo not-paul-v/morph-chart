@@ -405,8 +405,8 @@ export const ConvertedData = {
     },
     cursor: {
         display: true,
-        cursorColor: null,
-        lineColor: null
+        lineColor: "black",
+        cursorColor: "black"
     },
     partialGraph: true,
     title: "BABA"
