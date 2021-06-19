@@ -40,8 +40,6 @@ export default class ChartModel {
 
         this.pathData = this.calcPath();
         this.parsedPath = parse(this.pathData.path);
-
-        console.log(this.data);
     }
 
     calcPath = (): PathData => {
