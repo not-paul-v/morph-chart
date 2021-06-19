@@ -7,18 +7,6 @@ import { ChartData } from '../types/types';
 describe('ChartWrapper', () => {
   const size = { width: 400, height: 200}
 
-  // let graphContainer: any;
-  
-  beforeEach(() => {
-    // const { container } = render(
-    //   <ChartWrapper width={size.width} height={size.height} data={ConvertedData} />
-    // );
-    // graphContainer = container;
-    // render(
-    //   <ChartWrapper width={size.width} height={size.height} data={ConvertedData} />
-    // );
-  });
-
   it("should display no header", () => {
     const headerConfig = {
       currentValue: {
@@ -105,5 +93,22 @@ describe('ChartWrapper', () => {
 
     expect(title.textContent).toBe("");
     expect(buttons.clientWidth).toBe(0);
+  });
+
+  it("should change path on button click", () => {
+    const { container } = render(
+      <ChartWrapper width={size.width} height={size.height} data={ConvertedData} />
+    );
+    
+    const buttons = container.getElementsByTagName("button");
+    expect(buttons.length).toBe(4);
+
+    const oldPath = container.getElementsByTagName("path")[0].getAttribute("d");
+    buttons[1].click();
+    const newPath = container.getElementsByTagName("path")[0].getAttribute("d");
+
+
+    expect(oldPath).not.toBe(newPath);
+    expect(newPath).not.toBeNull();
   });
 });
