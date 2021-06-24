@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ChartModel from './lib/model';
 import styles from "./styles.module.css";
-import { ConvertedData } from './testGraphData';
 import { ChartCursor, DynamicHeaderData } from './types/types';
 
 interface ChartProps {
@@ -15,7 +14,7 @@ function useForceUpdate(){
     return () => setValue(value + 1);
 }
 
-const Chart: React.FC<ChartProps> = ({ chartModel }) => {
+export const Graph: React.FC<ChartProps> = ({ chartModel }) => {
     const [chartCursor, setChartCursor] = useState({ x: 0, y: 0, show: false } as ChartCursor);
     const [headerData, setHeaderData] = useState({ dataPointValue: null, percentChange: null, label: null } as DynamicHeaderData);
     const graphRef = useRef(null);
@@ -37,7 +36,8 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
     }
 
     const handleMouseLeave = () => {
-        changeHeaderData(ConvertedData.chartData[chartModel.state].points.length-1);
+        changeHeaderData(chartModel.getDataPointsLength());
+        // changeHeaderData(ConvertedData.chartData[chartModel.state].points.length-1);
         setChartCursor({
             x: 0,
             y: 0,
@@ -87,6 +87,7 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
     }
 
     const headerConfig = chartModel.data.header!;
+    const chartLabels = chartModel.data.chartLabels;
 
     return(
         <div className={styles.chartContainer} style={{ width: chartModel.width }}>
@@ -133,9 +134,9 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
                     opacity={0.7}
                 />
             </svg>
-            { ConvertedData.chartLabels === null ? null :
+            { chartLabels === null ? null :
                 <div className={styles.buttonContainer}>
-                {ConvertedData.chartLabels.map((value, index) => (
+                {chartLabels.map((value, index) => (
                     <button
                     className={index===chartModel?.state ? styles.selectedButton : ""}
                     key={index}
@@ -149,5 +150,3 @@ const Chart: React.FC<ChartProps> = ({ chartModel }) => {
         </div>
     );
 }
-
-export default Chart;

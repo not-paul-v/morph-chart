@@ -1,7 +1,7 @@
 import React from 'react';
-import ChartWrapper from '..'
+import Chart from '..'
 import { render } from '@testing-library/react';
-import {ConvertedData} from "../testGraphData";
+import { data } from "./testData";
 import { ChartData } from '../types/types';
 
 describe('ChartWrapper', () => {
@@ -19,11 +19,11 @@ describe('ChartWrapper', () => {
         display: false
       }
     }
-    ConvertedData.title = null;
-    ConvertedData.header = headerConfig;
+    data.title = null;
+    data.header = headerConfig;
 
     const { container } = render(
-      <ChartWrapper width={size.width} height={size.height} data={ConvertedData} />
+      <Chart width={size.width} height={size.height} data={data} />
     );
 
     const headerElements = container.getElementsByClassName('header');
@@ -33,10 +33,10 @@ describe('ChartWrapper', () => {
   });
 
   it("should display title", () => {
-    ConvertedData.title = "title";
+    data.title = "title";
 
     const { container } = render(
-      <ChartWrapper width={size.width} height={size.height} data={ConvertedData} />
+      <Chart width={size.width} height={size.height} data={data} />
     );
 
     const headerElements = container.getElementsByClassName('title');
@@ -57,18 +57,18 @@ describe('ChartWrapper', () => {
         display: true
       }
     }
-    ConvertedData.title = "title";
-    ConvertedData.header = headerConfig;
+    data.title = "title";
+    data.header = headerConfig;
 
     const { container } = render(
-      <ChartWrapper width={size.width} height={size.height} data={ConvertedData} />
+      <Chart width={size.width} height={size.height} data={data} />
     );
 
     const title = container.getElementsByClassName("title")[0];
     const percentChange = container.getElementsByClassName("percentChange")[0];
     const label = container.getElementsByClassName("label")[0];
     const datapointValue = container.getElementsByClassName("dpValue")[0];
-    const datapoints = ConvertedData.chartData[0].points;
+    const datapoints = data.chartData[0].points;
 
 
     expect(title.textContent).toBe("title");
@@ -85,7 +85,7 @@ describe('ChartWrapper', () => {
     };
 
     const { container } = render(
-      <ChartWrapper width={size.width} height={size.height} data={data} />
+      <Chart width={size.width} height={size.height} data={data} />
     );
 
     const title = container.getElementsByClassName("title")[0];
@@ -97,7 +97,7 @@ describe('ChartWrapper', () => {
 
   it("should change path on button click", () => {
     const { container } = render(
-      <ChartWrapper width={size.width} height={size.height} data={ConvertedData} />
+      <Chart width={size.width} height={size.height} data={data} />
     );
     
     const buttons = container.getElementsByTagName("button");

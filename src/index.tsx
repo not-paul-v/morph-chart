@@ -1,6 +1,6 @@
 import React from 'react';
 import ChartModel from './lib/model';
-import Chart from './chart';
+import { Graph } from './graph';
 import { ChartData } from './types/types';
 
 type ChartProps = {
@@ -9,12 +9,12 @@ type ChartProps = {
     data: ChartData;
 };
 
-const ChartWrapper = ({ width, height, data }: ChartProps) => {
+const Chart = ({ width, height, data }: ChartProps) => {
   const chartModel = new ChartModel(data, width, height, 0);
 
   return (
-    <Chart chartModel={chartModel} />
+    <Graph chartModel={chartModel} />
   );
 }
 
-export default ChartWrapper;
+export default Chart;
