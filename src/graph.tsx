@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ChartModel from './lib/model';
+import { Header } from './modules/header';
+import { LabelButtons } from './modules/labelButtons';
 import styles from "./styles.module.css";
 import { ChartCursor, DynamicHeaderData } from './types/types';
 
@@ -37,7 +39,6 @@ export const Graph: React.FC<ChartProps> = ({ chartModel }) => {
 
     const handleMouseLeave = () => {
         changeHeaderData(chartModel.getDataPointsLength());
-        // changeHeaderData(ConvertedData.chartData[chartModel.state].points.length-1);
         setChartCursor({
             x: 0,
             y: 0,
@@ -92,20 +93,7 @@ export const Graph: React.FC<ChartProps> = ({ chartModel }) => {
     return(
         <div className={styles.chartContainer} style={{ width: chartModel.width }}>
             <div style={{maxHeight: HEADER_HEIGHT}} className="header">
-                <h1 className={styles.title}>{chartModel.data.title}</h1>
-                {!headerConfig.currentValue.display ? null : 
-                    <h1 className={styles.dpValue}>{headerData.dataPointValue}</h1>
-                }
-                {!headerConfig.percentageChange.display && !headerConfig.labels.display ? null : 
-                    <div>
-                        <p className={styles.percentChange}>
-                            {headerConfig.percentageChange.display ? `${headerData.percentChange}%` : null}
-                        </p>
-                        <p className={styles.label}>
-                            {headerConfig.labels.display ? headerData.label : null}
-                        </p>
-                    </div>
-                }
+                <Header chartModel={chartModel} headerData={headerData} headerConfig={headerConfig} />
             </div>
             <svg
                 width={chartModel.width}
@@ -134,19 +122,7 @@ export const Graph: React.FC<ChartProps> = ({ chartModel }) => {
                     opacity={0.7}
                 />
             </svg>
-            { chartLabels === null ? null :
-                <div className={styles.buttonContainer}>
-                {chartLabels.map((value, index) => (
-                    <button
-                    className={index===chartModel?.state ? styles.selectedButton : ""}
-                    key={index}
-                    onClick={() => handleChartChangeClick(index)}
-                    >
-                        {value}
-                    </button>
-                ))}
-                </div>
-            }
+            <LabelButtons chartLabels={chartLabels} chartModel={chartModel} handleChartChangeClick={ handleChartChangeClick }/>
         </div>
     );
 }
