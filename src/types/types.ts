@@ -14,6 +14,7 @@ export type ChartData = {
     chartData: DataPoints[];
     // e.g. ticker
     title?: string | null;
+    graphColor?: string;
     header?: {
         currentValue: {
             display: boolean;

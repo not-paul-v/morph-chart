@@ -116,7 +116,7 @@ export const Graph: React.FC<ChartProps> = ({ chartModel }) => {
             >
                 <path
                     d={chartModel.pathData.path !== null ? chartModel.pathData.path : ""}
-                    style={{ fill: "transparent", stroke: "#E64801", strokeWidth: 3 }}
+                    style={{ fill: "transparent", stroke: chartModel.data.graphColor, strokeWidth: 3 }}
                     ref={graphRef}
                 />
                 <circle 
