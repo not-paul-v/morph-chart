@@ -1,21 +1,22 @@
-# lean-chart
+# morph-chart
 
-> Made with create-react-library
+> A react chart component with morph transitions.
+> Inspired by RobinHood's 'Spark' chart.
 
-[![NPM](https://img.shields.io/npm/v/lean-chart.svg)](https://www.npmjs.com/package/lean-chart) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/morph-chart.svg)](https://www.npmjs.com/package/morph-chart) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-npm install --save lean-chart
+npm install --save morph-chart
 ```
 
 ## Usage
 
 ```tsx
 import React from "react";
-import Chart from "lean-chart";
-import "lean-chart/dist/index.css";
+import Chart from "morph-chart";
+import "morph-chart/dist/index.css";
 import { data } from "./graphData";
 
 const App = () => {

@@ -1,5 +1,5 @@
 {
-  "name": "lean-chart",
+  "name": "morph-chart",
   "version": "1.0.0",
   "description": "Made with create-react-library",
   "author": "itsPauV",
@@ -46,7 +46,10 @@
   "peerDependencies": {
     "react": "^16.0.0",
     "abs-svg-path": "^0.1.1",
-    "normalize-svg-path": "^1.1.0",
+    "d3": "^6.7.0",
+    "d3-interpolate-path": "^2.2.3",
+    "d3-scale": "^3.3.0",
+    "d3-shape": "^2.1.0",
     "parse-svg-path": "^0.1.2"
   },
   "devDependencies": {
