@@ -1,7 +1,7 @@
 import React from 'react'
 import ChartModel from '../lib/model';
 import { DynamicHeaderData } from '../types/types';
-import styles from "./styles.module.css";
+import styles from "../styles.module.css";
 
 interface HeaderProps {
     chartModel: ChartModel,
@@ -11,7 +11,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({chartModel, headerConfig, headerData}) => {
     return (
-        <>
+        <div>
             <h1 className={styles.title}>{chartModel.data.title}</h1>
             {!headerConfig.currentValue.display ? null : 
                 <h1 className={styles.dpValue}>{headerData.dataPointValue}</h1>
@@ -26,6 +26,6 @@ export const Header: React.FC<HeaderProps> = ({chartModel, headerConfig, headerD
                     </p>
                 </div>
             }
-        </>
+        </div>
     );
 }

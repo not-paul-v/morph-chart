@@ -34,6 +34,7 @@ export default class DataLoader {
         lineColor: string | null;
         cursorColor: string | null;
     };
+
     currentValueDisplayPrefix: string;
     partialGraph: boolean;
 
