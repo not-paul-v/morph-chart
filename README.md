@@ -13,19 +13,20 @@ npm install --save lean-chart
 ## Usage
 
 ```tsx
-import React, { Component } from 'react'
+import React from "react";
+import Chart from "lean-chart";
+import "lean-chart/dist/index.css";
+import { data } from "./graphData";
 
-import MyComponent from 'lean-chart'
-import 'lean-chart/dist/index.css'
+const App = () => {
+    return <Chart width={700} height={200} data={data} />;
+};
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
-}
+export default App;
 ```
 
 ## License
 
 MIT © [itsPauV](https://github.com/itsPauV)
+
 # Lean Graph
