@@ -1317,5 +1317,6 @@ export const data = {
         cursorColor: "black"
     },
     partialGraph: true,
-    title: "BABA"
+    title: "BABA",
+    graphColor: "rgb(255 80 0)"
 };
