@@ -1,8 +1,12 @@
 # morph-chart
 
+Mouse Cursor            |  Morph Transitions
+:-------------------------:|:-------------------------:
+![](https://github.com/itsPauV/morph-chart/raw/main/src/common/images/chart_screenshot.png)  |  ![](https://github.com/itsPauV/morph-chart/raw/main/src/common/gif/morph_chart.gif)
+
 A react chart component with morph transitions.
 <br>
-Inspired by RobinHood's 'Spark' and Rainbow Charts' chart.
+Inspired by RobinHood's 'Spark' and Rainbow Charts.
 
 [![NPM](https://img.shields.io/npm/v/morph-chart.svg)](https://www.npmjs.com/package/morph-chart) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
