@@ -1,13 +1,21 @@
 {
   "name": "morph-chart",
   "version": "0.0.1",
-  "description": "Made with create-react-library",
+  "description": "React chart module with morph transitions",
   "author": "itsPauV",
   "license": "MIT",
-  "repository": "itsPauV/lean-chart",
+  "repository": "itsPauV/morph-chart",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.tsx",
+  "keywords": [
+    "chart",
+    "react",
+    "morph",
+    "cursor",
+    "robinhood",
+    "rainbow chart"
+  ],
   "engines": {
     "node": ">=10"
   },
