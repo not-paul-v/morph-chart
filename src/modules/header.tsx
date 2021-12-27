@@ -1,31 +1,32 @@
-import React from 'react'
-import ChartModel from '../lib/model';
-import { DynamicHeaderData } from '../types/types';
+import React from "react";
+import { DynamicHeaderData } from "../types/types";
 import styles from "../styles.module.css";
 
 interface HeaderProps {
-    chartModel: ChartModel,
-    headerConfig: any,
-    headerData: DynamicHeaderData
+    headerConfig: any;
+    headerData: DynamicHeaderData;
 }
 
-export const Header: React.FC<HeaderProps> = ({chartModel, headerConfig, headerData}) => {
+export const Header: React.FC<HeaderProps> = ({ headerConfig, headerData }) => {
     return (
         <div>
-            <h1 className={styles.title}>{chartModel.data.title}</h1>
-            {!headerConfig.currentValue.display ? null : 
+            <h1 className={styles.title}>{headerData.title}</h1>
+            {!headerConfig.currentValue.display ? null : (
                 <h1 className={styles.dpValue}>{headerData.dataPointValue}</h1>
-            }
-            {!headerConfig.percentageChange.display && !headerConfig.labels.display ? null : 
+            )}
+            {!headerConfig.percentageChange.display &&
+            !headerConfig.labels.display ? null : (
                 <div>
                     <p className={styles.percentChange}>
-                        {headerConfig.percentageChange.display ? `${headerData.percentChange}%` : null}
+                        {headerConfig.percentageChange.display
+                            ? `${headerData.percentChange}%`
+                            : null}
                     </p>
                     <p className={styles.label}>
                         {headerConfig.labels.display ? headerData.label : null}
                     </p>
                 </div>
-            }
+            )}
         </div>
     );
-}
+};

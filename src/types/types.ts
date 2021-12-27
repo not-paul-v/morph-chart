@@ -49,6 +49,7 @@ export type ChartCursor = {
 };
 
 export type DynamicHeaderData = {
+    title: string | null | undefined;
     dataPointValue: number | null;
     percentChange: number | null;
     label: string | null;
