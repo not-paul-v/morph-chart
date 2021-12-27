@@ -1,8 +1,8 @@
 # morph-chart
 
-Mouse Cursor            |  Morph Transitions
-:-------------------------:|:-------------------------:
-![](https://github.com/itsPauV/morph-chart/raw/main/src/common/images/chart_screenshot.png)  |  ![](https://github.com/itsPauV/morph-chart/raw/main/src/common/gif/morph_chart.gif)
+|                                        Mouse Cursor                                         |                                  Morph Transitions                                  |
+| :-----------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------: |
+| ![](https://github.com/itsPauV/morph-chart/raw/main/src/common/images/chart_screenshot.png) | ![](https://github.com/itsPauV/morph-chart/raw/main/src/common/gif/morph_chart.gif) |
 
 A react chart component with morph transitions.
 <br>
@@ -26,6 +26,24 @@ import { data } from "./graphData";
 
 const App = () => {
     return <Chart width={700} height={200} data={data} />;
+};
+
+export default App;
+```
+
+### Use a custom header
+
+```tsx
+const App = () => {
+    return (
+        <Chart width={700} height={200} data={data}>
+            {(headerData) => (
+                <div>
+                    {headerData.title} - {headerData.dataPointValue}
+                </div>
+            )}
+        </Chart>
+    );
 };
 
 export default App;
