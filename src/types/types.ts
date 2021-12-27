@@ -13,7 +13,7 @@ export type ChartData = {
     // chart data length has to match chartTypes length if > 1
     chartData: DataPoints[];
     // e.g. ticker
-    title?: string | null;
+    title?: string;
     graphColor?: string;
     header?: {
         currentValue: {
@@ -49,7 +49,7 @@ export type ChartCursor = {
 };
 
 export type DynamicHeaderData = {
-    title: string | null | undefined;
+    title: string | undefined;
     dataPointValue: number | null;
     percentChange: number | null;
     label: string | null;
@@ -58,16 +58,16 @@ export type DynamicHeaderData = {
 export type HeaderConfig = {
     currentValue: {
         display: boolean;
-        update: boolean;
-        prefix: string;
-        suffix: string;
+        update?: boolean;
+        prefix?: string;
+        suffix?: string;
     };
     percentageChange: {
         display: boolean;
-        update: boolean;
+        update?: boolean;
     };
     labels: {
         display: boolean;
-        update: boolean;
+        update?: boolean;
     };
 };

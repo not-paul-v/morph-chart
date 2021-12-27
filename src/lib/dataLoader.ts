@@ -26,9 +26,9 @@ const defaultCursor = {
 export default class DataLoader {
     chartLabels: string[] | null;
     chartData: DataPoints[];
-    title: string | null;
+    title?: string;
     graphColor: string;
-    header: any;
+    header: HeaderConfig;
     cursor: {
         display: boolean;
         lineColor: string | null;
@@ -39,12 +39,12 @@ export default class DataLoader {
     partialGraph: boolean;
 
     /**
-     *
+     * Assign default values if not given
      */
     constructor({
         chartLabels,
         chartData,
-        title = null,
+        title = undefined,
         graphColor = "black",
         header = defaultHeader,
         cursor = defaultCursor,

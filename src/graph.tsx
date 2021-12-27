@@ -34,7 +34,6 @@ export const Graph: React.FC<ChartProps> = ({ chartModel, children }) => {
     useEffect(() => {
         if (headerData.dataPointValue === null) {
             setHeaderData({
-                //TODO null | undefined?
                 title: chartModel.data.title,
                 dataPointValue: chartModel.getLatestDataPoint().value,
                 percentChange: chartModel.getPercentChangeFromIndex(
